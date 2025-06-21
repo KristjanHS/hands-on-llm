@@ -1,0 +1,22 @@
+# --- Core ML / GPU stack ---
+torch==2.5.1+cu121 --index-url https://download.pytorch.org/whl/cu121
+torchvision==0.20.1+cu121 --index-url https://download.pytorch.org/whl/cu121
+# torchaudio optional: add if using it
+
+# --- Jupyter + IPython ---
+notebook
+ipykernel
+jupyterlab
+ipython
+
+# --- Pretty outputs ---
+rich
+
+# --- Required by torchvision, Jupyter ---
+Pillow
+matplotlib-inline
+traitlets
+
+# --- Optional scientific utilities ---
+numpy
+packaging
