@@ -1,4 +1,4 @@
-# Stage 0 — WSL GPU Setup & First Experiments
+# Stage 0 — WSL 2 + GPU Setup for LLM python development & First Experiments
 
 This document distills **all meaningful commands** from my very first try‑everything session into a clear, replayable reference *and* a narrated journal.  It replaces the raw, unfiltered `~/.bash_history` with something concise and educational.
 
@@ -66,8 +66,8 @@ cd ~/projects/phase0
 
 ```bash
 # configure identity (global, runs once per machine)
-git config --global user.name  "Kristjan Sillmann"
-git config --global user.email "kristjan.h.s@gmail.com"
+git config --global user.name  "myname"
+git config --global user.email "mymame@gmail.com"
 
 # generate a modern key and copy to clipboard for GitHub Settings → SSH Keys
 ssh-keygen -t ed25519 -C "wsl‑laptop‑gpu"
