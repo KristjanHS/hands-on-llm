@@ -1,7 +1,6 @@
 # Stage 0 — WSL 2 + GPU Setup for LLM python development & First Experiments
 
-This document distills **all meaningful commands** from my very first try‑everything session into a clear, replayable reference *and* a narrated journal.  
-It replaces the raw, unfiltered `~/.bash_history` with something concise and educational.
+This document distills **all meaningful commands** from my very first try‑everything session into a clear, replayable reference *and* a narrated journal. It replaces the raw, unfiltered `~/.bash_history` with something concise and educational.
 
 > **Tip for future me:** every command block below can be copy‑pasted straight into a fresh WSL Ubuntu install to reproduce the same environment.
 
