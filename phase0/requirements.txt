@@ -20,3 +20,5 @@ traitlets
 # --- Optional scientific utilities ---
 numpy
 packaging
+black
+pytest
