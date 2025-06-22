@@ -1,6 +1,5 @@
-test WSL Cuda devicecount
 # Compiled outputs
-/bin/
+phase0/bin/
 *.out
 
 # Virtualenv
@@ -9,6 +8,7 @@ test WSL Cuda devicecount
 # Python cache
 __pycache__/
 *.pyc
+.pytest_cache/
 
 # Jupyter
 .ipynb_checkpoints/
