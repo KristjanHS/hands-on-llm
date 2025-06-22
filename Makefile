@@ -2,7 +2,7 @@
 
 # Python & environment
 PYTHON := $(VENV)/bin/python
-VENV := $(CURDIR)/phase0-env
+VENV := $(CURDIR)/.venv
 
 # Default: help
 .DEFAULT_GOAL := help
@@ -18,19 +18,22 @@ venv:  ## Create and activate virtual environment
 	$(VENV)/bin/pip install --upgrade pip
 	$(VENV)/bin/pip install -r requirements.txt
 
-gpu-check:  ## Run GPU availability test
+check-venv:
+	@test -d $(VENV) || (echo "❌ Virtual environment not found. Run \`make venv\` first." && exit 1)
+
+gpu-check: check-venv  ## Run GPU availability test
 	$(PYTHON) stage0/scripts/test_torch_gpu.py
 
 python-path:  ## Print the detected Python path
 	$(PYTHON) stage0/scripts/test_WSL_python_path.py
 
-cuda-devicecount:  ## Run compiled CUDA binary (detect device count)
+cuda-devicecount:  check-venv  ## Run compiled CUDA binary (detect device count)
 	./stage0/bin/test_WSL_Cuda_devicecount
 
-cuda-compile:  ## Recompile CUDA test binary
-	nvcc stage0/cuda/test_WSL_Cuda_devicecount.cu -o stage0/bin/test_WSL_Cuda_devicecount
+cuda-compile:  check-venv ## Recompile CUDA test binary
+	nvcc phase0/cuda/test_WSL_Cuda_devicecount.cu -o stage0/bin/test_WSL_Cuda_devicecount
 
-jupyter:  ## Start Jupyter Notebook server
+jupyter:  check-venv ## Start Jupyter Notebook server
 	$(VENV)/bin/jupyter notebook
 
 clean:  ## Remove compiled files and cache
