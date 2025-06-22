@@ -8,4 +8,12 @@ banner_text = """
 Get ready to build something amazing.
 """
 
-console.print(Panel(banner_text, title="Phase 0", subtitle="Milrem Robotics", style="bold magenta", border_style="green"))
+console.print(
+    Panel(
+        banner_text,
+        title="Phase 0",
+        subtitle="Milrem Robotics",
+        style="bold magenta",
+        border_style="green",
+    )
+)
