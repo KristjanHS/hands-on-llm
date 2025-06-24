@@ -1,5 +1,5 @@
 # Compiled outputs
-phase0/bin/
+bin/
 *.out
 
 # Virtualenv
