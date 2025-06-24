@@ -2,6 +2,7 @@
 
 # Python & environment
 PYTHON := $(VENV)/bin/python
+PYTHON_EXECUTABLE ?= python3.11
 VENV := $(CURDIR)/.venv
 
 # Default: help
@@ -14,7 +15,7 @@ help:  ## Show available commands
 		awk 'BEGIN {FS = ":.*?##"}; {printf "  \033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
 venv:  ## Create and activate virtual environment
-	python3.11 -m venv $(VENV)
+	$(PYTHON_EXECUTABLE) -m venv $(VENV)
 	$(VENV)/bin/pip install --upgrade pip
 	$(VENV)/bin/pip install -r requirements.txt
 
