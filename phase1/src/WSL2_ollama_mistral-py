@@ -4,12 +4,18 @@ curl -fsSL https://ollama.com/install.sh | sh
 ollama --version
 
 ollama run mistral
-ctrl +d to exit
+ctrl +d to exit  
+or 
+ollama run mistral &>/dev/null&
+# to run it in background!
   Purpose: Starts an interactive session with the Mistral model directly in your terminal.
   Behavior: Temporarily initiates the Ollama server to facilitate this session.
   Use Case: Ideal for quick tests or one-off interactions where you don't need persistent access.
 
 ollama serve
+or 
+ollama serve &>/dev/null&
+# to run it in background!
   Purpose: Launches the Ollama server as a standalone service, continuously listening for API requests.
   Behavior: Keeps the server running independently, allowing multiple clients or applications to interact with it concurrently.
   Use Case: Essential when integrating Ollama into applications, using it with tools like LangChain, or exposing it over a network.
