@@ -1,11 +1,22 @@
 """
-# eeldab kohaliku ollama serveri olemasolu wsl 2 ubuntu sees, mis töötab pordil 11434.
+LEARNING todo:
+* run local oobabooga server on WSL, point base_url in the code to localhost:THE_RIGHT_PORT
+
+* DONE, WORKS: run local ollama server on WSL, point base_url in the code to localhost:THE_RIGHT_PORT
+
+# Running this python code inside WSL 2 assumes 
+#   that local LLM server (ollama or oobabooga) is also running inside WSL2 !
+#
+# ollama is a great alternative to oobabooga, especially for those who prefer a simpler setup and 
+# don't need the full web interface that oobabooga provides.
+
+# Ollama install:
 curl -fsSL https://ollama.com/install.sh | sh
 ollama --version
 
 ollama run mistral
-ctrl +d to exit  
-or 
+# ctrl +d to exit  
+# or 
 ollama run mistral &>/dev/null&
 # to run it in background!
   Purpose: Starts an interactive session with the Mistral model directly in your terminal.
@@ -13,7 +24,7 @@ ollama run mistral &>/dev/null&
   Use Case: Ideal for quick tests or one-off interactions where you don't need persistent access.
 
 ollama serve
-or 
+# or 
 ollama serve &>/dev/null&
 # to run it in background!
   Purpose: Launches the Ollama server as a standalone service, continuously listening for API requests.
