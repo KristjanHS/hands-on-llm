@@ -1,7 +1,14 @@
+"""
+I FINALLY GOT this code to work against the Ollama Colab server, which is running the LLaVA model. 
+The Colab also uses Ngrok to tunnel the local Ollama server to the internet, so that it can be accessed from My local VScode.
+On Colab, make sure to run the Ollama server first, and then start Ngrok to tunnel the server.
+The LLaVA model is a large language and vision model that can describe images in natural language.
+The code sends an image to the LLaVA model and retrieves a description of the image.
+""""
 from ollama import Client  
   
 #Replace the URL with your localtunnel URL  
-host = 'https://hip-waves-doubt.loca.lt/'  
+host = 'https://nearby-adequately-python.ngrok-free.app/'  
   
 # Initialize the Ollama client.  
 ollama_client = Client(host)  
@@ -25,3 +32,11 @@ except ollama_client.ResponseError as e:
 # Print the model's description of the image  
 response = response['message']['content']  
 print(response)
+
+"""
+(.venv) kristjans@DESKTOP-26A9125:~/projects/hands-on-llm/phase1$ 
+/home/kristjans/projects/hands-on-llm/.venv/bin/python /home/kristjans/projects/hands-on-llm/phase1/src/use_colab_ollama.py
+ The image shows a very blurred Eiffel Tower, which is an iconic landmark located in Paris, France. 
+ The tower appears to be slightly tilted and the sky is blue, suggesting it might be taken during the day under bright sunlight. 
+ Due to the lack of clarity, it's difficult to provide more details about the scene or the context.
+"""
