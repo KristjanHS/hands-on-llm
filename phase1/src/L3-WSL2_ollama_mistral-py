@@ -2,7 +2,7 @@
 LEARNING todo:
 * run local oobabooga server on WSL, point base_url in the code to localhost:THE_RIGHT_PORT
 
-* DONE, WORKS: run local ollama server on WSL, point base_url in the code to localhost:THE_RIGHT_PORT
+* ALREADY DONE, WORKS: run local ollama server on WSL, point base_url in the code to localhost:THE_RIGHT_PORT
 
 # Running this python code inside WSL 2 assumes 
 #   that local LLM server (ollama or oobabooga) is also running inside WSL2 !
@@ -10,7 +10,7 @@ LEARNING todo:
 # ollama is a great alternative to oobabooga, especially for those who prefer a simpler setup and 
 # don't need the full web interface that oobabooga provides.
 
-# Ollama install:
+* Ollama install:
 curl -fsSL https://ollama.com/install.sh | sh
 ollama --version
 
@@ -31,6 +31,33 @@ ollama serve &>/dev/null&
   Behavior: Keeps the server running independently, allowing multiple clients or applications to interact with it concurrently.
   Use Case: Essential when integrating Ollama into applications, using it with tools like LangChain, or exposing it over a network.
   Test it via linux shell: curl http://localhost:11434
+
+# Oobabooga WSL 2 install with miniconda:
+curl -sL https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -o Miniconda3.sh
+bash Miniconda3.sh
+source ~/.bashrc
+git clone https://github.com/oobabooga/text-generation-webui.git
+cd text-generation-webui
+conda create -n textgen python=3.10.9 -y
+# because oobabooga is tested / verified to be stable on this python version!
+conda activate textgen
+pip install -r requirements.txt
+# Place the Model: place model files into the models directory within text-generation-webui
+# ~/text-generation-webui/models 
+python server.py --api 
+# This will launch the web interface, typically accessible at http://localhost:7860
+# optional: --chat 
+# optional: --auto-launch
+# selle asemel võib kasutada shell scripti:
+# Create a shell script (e.g., start_oobabooga.sh) in your project directory:
+#!/bin/bash
+source venv/bin/activate
+python server.py --chat --api
+Make the script executable:
+chmod +x start_oobabooga.sh
+Run the script in a VSCode terminal:
+./start_oobabooga.sh
+
 """
 from langchain_ollama import OllamaLLM
 
