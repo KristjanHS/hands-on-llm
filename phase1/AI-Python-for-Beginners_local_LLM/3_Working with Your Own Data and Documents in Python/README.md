@@ -1,3 +1,5 @@
+# Microsoft course AI-Python-for-Beginners -> changed to use local LLM
+
 # AP4E Course 3: Working with Your Own Data and Documents in Python 
 
 ## L0 - A trip around the world in one short course
