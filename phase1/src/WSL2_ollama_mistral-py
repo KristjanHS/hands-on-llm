@@ -1,0 +1,43 @@
+"""
+WORKED for me: run local ollama server on WSL, point base_url in the code to localhost:11434
+
+# Running this python code inside WSL 2 assumes 
+#   that local LLM server (ollama or oobabooga) is also running inside WSL2 !
+# ollama is a great alternative to oobabooga, especially for those who prefer a simpler setup and 
+# don't need the full web interface that oobabooga provides.
+
+* Ollama install:
+curl -fsSL https://ollama.com/install.sh | sh
+ollama --version
+
+ollama serve &>/dev/null& 
+# %>... to run it in background!
+  Purpose: Launches the Ollama server as a standalone service, continuously listening for API requests.
+  Behavior: Keeps the server running independently, allowing multiple clients or applications to interact with it concurrently.
+  Use Case: Essential when integrating Ollama into applications, using it with tools like LangChain, or exposing it over a network.
+
+ollama run mistral
+# ctrl +d to exit  
+# ollama run mistral &>/dev/null&
+# to run it in background!
+  Purpose: Starts an interactive session with the Mistral model directly in your terminal.
+  Behavior: Temporarily initiates the Ollama server to facilitate this session.
+  Use Case: Ideal for quick tests or one-off interactions where you don't need persistent access.
+
+    Test it via linux shell: curl http://localhost:11434
+"""
+from langchain_ollama import OllamaLLM
+
+llm = OllamaLLM(model="mistral", base_url="http://localhost:11434")
+
+def generate_text(prompt: str) -> str:
+    """Generate text using the model."""
+    response = llm.invoke(prompt)
+    return response.strip()
+
+# Example usage
+myprompt = "Write the summary of the book 'The Alchemist', by Paulo Coelho"
+print(f"Prompt: {myprompt} \n")
+print("Response: ...\n")
+for text in llm.invoke(myprompt):
+    print(text, end="", flush=True)
