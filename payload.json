@@ -1,0 +1,10 @@
+{
+  "model": "mistral",
+  "messages": [
+    {"role":"system","content":"You are a helpful AI assistant who talks for as long as possible, providing detailed and comprehensive answers to user queries."},
+    {"role":"user","content":"Please write a long and detailed article about the future of AI in military robotics, focusing on ethical challenges, technical limitations, and societal impact. Be as comprehensive as possible."}
+  ],
+  "max_tokens": 128,
+  "temperature": 0.0,
+  "stream": false
+}

@@ -117,6 +117,10 @@ def get_llm_response(prompt):
     return response + "\n VER 2 WORKS!"
 '''
 
+# This function is replacing the OpenAI get_llm_response function above.
+# It uses the ChatOllama class from the langchain_ollama package to interact with a local Ollama server.
+# The endpoint is the OpenAI-compatible /api/chat endpoint.
+
 from langchain_ollama import ChatOllama
 from langchain_core.messages import AIMessage
 def get_llm_response(
