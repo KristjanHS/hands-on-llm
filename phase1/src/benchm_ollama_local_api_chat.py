@@ -6,6 +6,7 @@ import argparse
 import time
 import statistics
 import requests
+from sqlalchemy import Null
 
 
 def parse_args():
@@ -49,7 +50,7 @@ def parse_args():
     p.add_argument(
         "--num-predict", "-n",
         type=int,
-        default=256,
+        default=128,
         help="Maximum tokens to generate (num_predict; default: server default)"
     )
     p.add_argument(
@@ -71,8 +72,8 @@ def call_ollama_chat(args):
         "model":       args.model,
         "messages":    messages,
         "temperature": args.temperature,
-        "max_tokens":  args.num_predict if args.num_predict is not None else -1,
-#        "stop": None,                  # disable any stop tokens - for consistent performance testing
+        "max_tokens":  args.num_predict,
+#        "stop": Null,                  # disable any stop tokens - for consistent performance testing
         "stream": False
     }
 

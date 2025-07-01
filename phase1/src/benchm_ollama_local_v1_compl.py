@@ -14,7 +14,7 @@ def parse_args():
     )
     p.add_argument(
         "--host", "-H",
-        default="172.22.208.1",
+        default="localhost",
         help="Ollama API host (default: localhost)"
         # localhost  # WSL ollama host
         # 172.22.208.1  # Windows ollama host
@@ -38,20 +38,19 @@ def parse_args():
     )
     p.add_argument(
         "--prompt", "-p",
-        default="Hello, how are you?",
+        default="Please write a long and detailed article about the future of AI in military robotics, focusing on ethical challenges, technical limitations, and societal impact. Be as comprehensive as possible.",
         help="Text prompt to send"
+    )
+    p.add_argument(
+        "--system-prompt", "-sp",
+        default="You are a helpful AI assistant who talks for as long as possible, providing detailed and comprehensive answers to user queries.",
+        help="System prompt to use"
     )
     p.add_argument(
         "--num-predict", "-n",
         type=int,
-        default=None,
+        default=256,
         help="Maximum tokens to generate (num_predict; default: server default)"
-    )
-    p.add_argument(
-        "--num-ctx", "-c",
-        type=int,
-        default=None,
-        help="Context window size (num_ctx; default: server default)"
     )
     p.add_argument(
         "--runs", "-r",
@@ -90,7 +89,7 @@ def benchmark(args):
     print("→ Warmup run…")
     call_ollama_api(
         args.host, args.port,
-        args.model, args.prompt,
+        args.model, args.prompt + "\n" + args.system_prompt,
         args.temperature,
         args.num_predict, args.num_ctx
     )
@@ -104,7 +103,7 @@ def benchmark(args):
         t0 = time.perf_counter()
         data = call_ollama_api(
             args.host, args.port,
-            args.model, args.prompt,
+            args.model, args.prompt + "\n" + args.system_prompt,
             args.temperature,
             args.num_predict, args.num_ctx
         )
