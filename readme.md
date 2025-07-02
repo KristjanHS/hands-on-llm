@@ -8,13 +8,14 @@ This repository tracks my hands-on learning journey with Local Large Language Mo
 > *Goal:* Set up robust development environment (WSL2 + Python + CUDA + PyTorch GPU)
 - Complete WSL2 configuration with GPU support
 - Python 3.11 environment setup
+- VScode IDE setup + github, copilot, WSL venv
 - CUDA toolkit and PyTorch integration
-- Jupyter notebook configuration
-- Basic GPU validation tests
+- Jupyter notebook first tests
+- Basic GPU validation tests via shell
 
 ### ✅ [Phase 1](./phase1/)
 > *Goal:* Local LLM experimentation and integration
-- Interactive notebooks and examples
+- Interactive notebooks and examples to get started with AI Python
 - API integrations for various endpoints, both local and remote (eg local to colab)
 - Local model deployment (Ollama and Oobabooga - both tried in Windows 10 and inside WSL 2 (ubuntu))
 - Multiple model architectures
@@ -26,7 +27,7 @@ MY NEXT STEPs PLAN:
 > *Goal:* Local RAG experimentation and integration
 - Trying out multiple local RAG architectures
 
-### ✅ [Phase 4](./phase3/)
+### ✅ [Phase 3](./phase3/)
 > *Goal:* AI safety tools experimentation
 - Trying out multiple AI safety testing frameworks and approaches
 
