@@ -12,3 +12,9 @@ __pycache__/
 
 # Jupyter
 .ipynb_checkpoints/
+
+# Environment variables
+.env
+
+# Logs
+logs/
