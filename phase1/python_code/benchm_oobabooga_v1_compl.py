@@ -5,6 +5,8 @@ import argparse
 import time
 import statistics
 import requests
+import os
+from phase1.python_code.windows_ip_in_wsl import get_windows_host_ip
 
 # the disabled tokenizer import is left here for reference, but not used in this script
 # from transformers import AutoTokenizer
@@ -14,9 +16,9 @@ def parse_args():
         description="Benchmark Oobabooga Text-Generation Web UI via direct HTTP"
     )
     p.add_argument(
-        "--host", "-H", default="172.22.208.1",
-        help="API host (default: 127.0.0.1)"
-        # 172.22.208.1  # windows oobabooga host
+        "--host", "-H", default=get_windows_host_ip() or "127.0.0.1",
+        help="API host (default: detected Windows host IP, or 127.0.0.1 if not found)"
+        # WIN_IP detected dynamically for Windows oobabooga host
         # 127.0.0.1  # WSL oobabooga host
     )
     p.add_argument(

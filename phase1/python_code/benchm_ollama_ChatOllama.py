@@ -9,6 +9,7 @@ import statistics
 from typing import Optional
 
 from helper_functions import get_llm_response
+from phase1.python_code.windows_ip_in_wsl import get_windows_host_ip
 
 def parse_args():
     p = argparse.ArgumentParser(
@@ -26,9 +27,9 @@ def parse_args():
     )
     p.add_argument(
         "--base-url", "-b",
-#        default="http://localhost:11434",  # WSL ollama host
-        default="http://172.22.208.1:11434",  # Windows ollama host
-        help="Base URL for local Ollama server"
+        default=f"http://{get_windows_host_ip() or 'localhost'}:11434",
+        help="Base URL for local Ollama server (default: detected Windows host IP, or localhost if not found)"
+        # Uses get_windows_host_ip from windows_ip_in_wsl.py
     )
     p.add_argument(
         "--temperature", "-t",
