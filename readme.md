@@ -1,6 +1,6 @@
 # 🚀 My Hands-On LLM Learning Journey
 
-This repository tracks my hands-on learning journey with Large Language Models (LLMs) and Small Language Models (SLM), focusing on practical implementation and experimentation. Each phase builds upon the previous one, creating a comprehensive understanding of LLM development from environment setup to advanced applications (RAG, AI safety, ...).
+This repository tracks my hands-on learning journey with Large Language Models (LLMs) and Small Language Models (SLM), focusing on practical implementation and experimentation. Each phase builds upon the previous one, creating a comprehensive understanding of LLM development from environment setup to AI related projects (RAG, AI safety, ...).
 
 ## 🧭 Phases
 
