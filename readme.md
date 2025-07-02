@@ -14,11 +14,21 @@ This repository tracks my hands-on learning journey with Local Large Language Mo
 
 ### ✅ [Phase 1](./phase1/)
 > *Goal:* Local LLM experimentation and integration
-- Local model deployment (Ollama, etc.)
-- API integration and benchmarking
-- Multiple model architectures
-- Performance analysis and optimization
 - Interactive notebooks and examples
+- API integrations for various endpoints, both local and remote (eg local to colab)
+- Local model deployment (Ollama and Oobabooga - both tried in Windows 10 and inside WSL 2 (ubuntu))
+- Multiple model architectures
+- Performance analysis and optimization (It turned out the Windows Ollama is fastest of my 4 local alternative setups)
+
+MY NEXT STEPs PLAN:
+
+### ✅ [Phase 2](./phase2/)
+> *Goal:* Local RAG experimentation and integration
+- Trying out multiple local RAG architectures
+
+### ✅ [Phase 4](./phase3/)
+> *Goal:* AI safety tools experimentation
+- Trying out multiple AI safety testing frameworks and approaches
 
 ### 🔜 Future Phases
 > Planning in progress...
