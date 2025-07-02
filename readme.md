@@ -28,8 +28,11 @@ MY NEXT STEPs PLAN:
 - Trying out multiple local RAG architectures
 
 ### ✅ [Phase 3](./phase3/)
-> *Goal:* AI safety tools experimentation
-- Trying out multiple AI safety testing frameworks and approaches
+> *Goal:* AI safety topics + AI training & quantisation experimentation
+- Trying out multiple AI safety related frameworks and approaches
+- small PyTorch model training and GPU monitoring (`nvidia-smi` load)
+- HuggingFace Transformers + quantisation
+
 
 ### 🔜 Future Phases
 > Planning in progress...

@@ -6,6 +6,7 @@ import argparse
 import time
 import statistics
 import requests
+from phase1.python_code.windows_ip_in_wsl import get_windows_host_ip
 
 
 def parse_args():
@@ -14,10 +15,9 @@ def parse_args():
     )
     p.add_argument(
         "--host", "-H",
-        default="172.22.208.1",
-        help="Ollama API host (default: localhost)"
-        # localhost  # WSL ollama host
-        # 172.22.208.1  # Windows ollama host
+        default=get_windows_host_ip() or "localhost",
+        help="Ollama API host (default: detected Windows host IP, or localhost if not found)"
+        # Uses get_windows_host_ip from windows_ip_in_wsl.py
     )
     p.add_argument(
         "--port", "-P",

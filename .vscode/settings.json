@@ -4,8 +4,13 @@
     "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
     // Make the integrated terminal auto-activate that env
     "python.terminal.activateEnvironment": true,
-    "python.analysis.extraPaths": ["phase1/src"],
-    "python.formatting.provider": "black",
-    "python.linting.enabled": true,
-    "python.linting.flake8Enabled": true
+    "python.envFile": "${workspaceFolder}/.env",
+    "python.analysis.extraPaths": [
+        "phase1/python_code"
+    ],
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter"
+    },
+    "editor.formatOnSave": true,
+    "flake8.enabled": true
 }

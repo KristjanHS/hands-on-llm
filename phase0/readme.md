@@ -11,10 +11,12 @@ This document distills **all meaningful commands** from my very first try‑ever
 ```
 stage0/
 ├── notebooks/               # GPU/Jupyter test notebooks
-├── scripts/                 # Torch, path, rich, cwd tests
+├── batch_and_shell/         # Torch, path, rich, cwd tests
 ├── cuda/                    # CUDA C++ source (device query etc.)
 ├── bin/                     # Compiled CUDA output (gitignored)
 ├── logs/                    # Setup logs and dependency files
+├── python_code/             # first python scripts
+├── tests/                   # first asserts in python
 ```
 
 These are exploratory, rough, and deliberately not yet organized into "final" code. They're meant to track the **first working probes** into Python, CUDA, and Jupyter integration on WSL.
@@ -61,8 +63,8 @@ cd ~/projects/phase0
 
 ```bash
 # configure identity (global, runs once per machine)
-git config --global user.name  "Kristjan Sillmann"
-git config --global user.email "kristjan.h.s@gmail.com"
+git config --global user.name  "myname"
+git config --global user.email "mymame@gmail.com"
 
 # generate a modern key and copy to clipboard for GitHub Settings → SSH Keys
 ssh-keygen -t ed25519 -C "wsl‑laptop‑gpu"
@@ -137,7 +139,7 @@ ldconfig -p | grep libcuda.so               # ONLY /usr/lib/wsl/lib paths
 nvcc --version                              # confirms compiler present
 ```
 
-*If any ****\`\`**** packages appear in the next command, something is wrong:*
+*If any **`nvidia-driver-*`** packages appear in the next command, something is wrong:*
 
 ```bash
 dpkg -l | grep -E 'nvidia-(dkms|driver|kernel|modules)'
@@ -178,8 +180,8 @@ In VS Code (Remote WSL), open `phase0-check`, create a notebook, and select th
 ## 10  First CUDA kernel (C++)
 
 ```bash
-nvcc stage0/cuda/test_WSL_Cuda_devicecount.cu -o stage0/bin/test_WSL_Cuda_devicecount
-./stage0/bin/test_WSL_Cuda_devicecount
+nvcc cuda/test_WSL_Cuda_devicecount.cu -o bin/test_WSL_Cuda_devicecount
+./bin/test_WSL_Cuda_devicecount
 ```
 
 Or inspect `test_WSL_Cuda_devicecount.cu` directly. It counts visible devices using CUDA C++.
@@ -192,7 +194,7 @@ Or inspect `test_WSL_Cuda_devicecount.cu` directly. It counts visible devices us
 # exclude large outputs & environments
 cat <<'GIT' >> .gitignore
 # binary & build artefacts
-stage0/bin/
+test_WSL_Cuda_devicecount
 *.out
 *.o
 # Python caches
@@ -208,14 +210,6 @@ git add .gitignore stage0/ *.cu *.py *.ipynb *.sh requirements.txt
 git commit -m "Stage 0 setup: WSL GPU, CUDA 12.5, PyTorch 2.5.1, first kernels and notebooks"
 git push -u origin main
 ```
-
----
-
-## 12  Where to go next
-
-- Stage 1: automate rebuild via `Makefile` / `tox`
-- Stage 2: small PyTorch model training and GPU monitoring (`nvidia-smi` load)
-- Stage 3: HuggingFace Transformers + quantisation on RTX 3070 Laptop
 
 ---
 
