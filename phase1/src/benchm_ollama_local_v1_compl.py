@@ -14,7 +14,7 @@ def parse_args():
     )
     p.add_argument(
         "--host", "-H",
-        default="localhost",
+        default="172.22.208.1",
         help="Ollama API host (default: localhost)"
         # localhost  # WSL ollama host
         # 172.22.208.1  # Windows ollama host
@@ -53,6 +53,12 @@ def parse_args():
         help="Maximum tokens to generate (num_predict; default: server default)"
     )
     p.add_argument(
+        "--num-ctx", "-ct",
+        type=int,
+        default=8192,
+        help="Maximum tokens in context (num_ctx; default: server default)"
+    )
+    p.add_argument(
         "--runs", "-r",
         type=int,
         default=5,
@@ -89,9 +95,11 @@ def benchmark(args):
     print("→ Warmup run…")
     call_ollama_api(
         args.host, args.port,
-        args.model, args.prompt + "\n" + args.system_prompt,
+        args.model, 
+        args.prompt + "\n" + args.system_prompt,
         args.temperature,
-        args.num_predict, args.num_ctx
+        args.num_predict, 
+        args.num_ctx
     )
     print("Warmup complete.\n")
 
@@ -105,7 +113,8 @@ def benchmark(args):
             args.host, args.port,
             args.model, args.prompt + "\n" + args.system_prompt,
             args.temperature,
-            args.num_predict, args.num_ctx
+            args.num_predict, 
+            args.num_ctx
         )
         t1 = time.perf_counter()
 
