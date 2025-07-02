@@ -1,5 +1,7 @@
-# Microsoft course AI-Python-for-Beginners -> changed to use local LLM
-# source:   https://vscodeedu.com/courses/intro-to-python
+# Microsoft course AI-Python-for-Beginners -> I changed it to use local LLM
+# course source:   https://vscodeedu.com/courses/intro-to-python
+
+
 
 # Introduction
 

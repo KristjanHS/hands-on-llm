@@ -1,4 +1,6 @@
-# Microsoft course AI-Python-for-Beginners -> changed to use local LLM
+# Microsoft course "AI-Python-for-Beginners" -> I changed it to use local LLM servers
+
+
 
 # AP4E Course 3: Working with Your Own Data and Documents in Python 
 
