@@ -1,0 +1,8 @@
+[wsl2]
+memory=50GB                 # Set max RAM limit; - default was 4GB
+processors=11               # Optional: Limit CPU cores - default was 4
+swap=8GB                   # Enables swap inside WSL2 VM - default was 2GB
+swapFile=d:\\swap-wsl2.vhdx
+localhostForwarding=true   # Keep true unless you have specific needs
+# Optional tuning flags
+pageReporting=true
