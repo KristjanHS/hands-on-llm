@@ -14,8 +14,10 @@ def parse_args():
         description="Benchmark Oobabooga Text-Generation Web UI via direct HTTP"
     )
     p.add_argument(
-        "--host", "-H", default="127.0.0.1",
+        "--host", "-H", default="172.22.208.1",
         help="API host (default: 127.0.0.1)"
+        # 172.22.208.1  # windows oobabooga host
+        # 127.0.0.1  # WSL oobabooga host
     )
     p.add_argument(
         "--port", "-P", type=int, default=5000,
