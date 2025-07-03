@@ -70,7 +70,6 @@ from langchain_ollama import OllamaLLM
 def get_llm_response(prompt):
     """ 
     # VER 1 of local Ollama function: NB!!! it requires token loop because of streaming
-    """
     llm = OllamaLLM(model="mistral", base_url="http://localhost:11434")
     response = llm.invoke(prompt)
     return response.strip()
