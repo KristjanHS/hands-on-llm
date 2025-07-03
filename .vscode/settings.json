@@ -11,5 +11,11 @@
     "[python]": {
         "editor.defaultFormatter": "ms-python.black-formatter"
     },
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    // flake8 linting config
+    "cornflakes.linter.executablePath": "/home/kristjans/projects/hands-on-llm/.venv/bin/flake8",
+    "cornflakes.linter.run": "onType",
+    "python.analysis.diagnosticSeverityOverrides": {
+        "reportMissingImports": "none" // optional: hides some Pylance noise
+    }
 }

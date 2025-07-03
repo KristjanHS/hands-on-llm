@@ -11,14 +11,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python
+       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Install dependencies
-        run: |
+      #- name: Install dependencies
+      #  run: |
           python -m pip install --upgrade pip
-          pip install -r phase0/requirements.txt || pip install -r phase1/requirements.txt
+      #    pip install -r phase0/requirements.txt || pip install -r phase1/requirements.txt
           pip install black flake8 pytest
       - name: Lint with flake8
         run: |
