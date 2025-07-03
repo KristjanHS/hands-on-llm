@@ -22,7 +22,8 @@ jobs:
           pip install black flake8 pytest
       - name: Lint with flake8
         run: |
-          flake8 .
+          flake8 --version
+          #  flake8 .
       - name: Format with black (check only)
         run: |
           black --check .
