@@ -1,15 +1,18 @@
 #!/usr/bin/env python3
-# This script retrieves the Windows host's private IP address from WSL using the `ip route` command.
-# It checks if the IP is a private address (10.x.x.x, 172.16.x.x - 172.31.x.x, or 192.168.x.x)
-# and returns it.
-# In WSL, the windows host IP is typically in the range 172.16.x.x - 172.31.x.x,
-# but this can vary based on your network configuration.
+"""
+Utility to retrieve the Windows host's private IP address from WSL.
+This script retrieves the Windows host's private IP address from WSL using the `ip route` command.
+It checks if the IP is a private address (10.x.x.x, 172.16.x.x - 172.31.x.x, or 192.168.x.x)
+and returns it.
+In WSL, the windows host IP is typically in the range 172.16.x.x - 172.31.x.x,
+but this can vary based on your network configuration.
+"""
 
 import subprocess
 import re
 
 
-def get_windows_host_ip():
+def get_windows_host_ip() -> str | None:
     try:
         # Run `ip route` and get the output
         result = subprocess.check_output(["ip", "route"]).decode("utf-8")

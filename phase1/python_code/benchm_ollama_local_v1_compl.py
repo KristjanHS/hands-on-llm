@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-# this script benchmarks the Ollama API by sending a chat completion request
-# and measuring the response time, while also collecting token usage statistics.
-# It uses the OpenAI-compatible /v1/completions endpoint
+"""
+Benchmark local Ollama via its OpenAI-compatible API with accurate token stats.
+Sends a prompt to the /v1/completions endpoint and measures response time and token usage.
+"""
 
 import argparse
 import time
@@ -10,7 +11,13 @@ import requests
 from phase1.python_code.windows_ip_in_wsl import get_windows_host_ip
 
 
-def parse_args():
+def parse_args() -> argparse.Namespace:
+    """
+    Parse command-line arguments for the benchmarking script.
+
+    Returns:
+        argparse.Namespace: Parsed arguments.
+    """
     p = argparse.ArgumentParser(
         description="Benchmark local Ollama via its OpenAI-compatible API with accurate token stats"
     )
@@ -21,12 +28,8 @@ def parse_args():
         help="Ollama API host (default: detected Windows host IP, or localhost if not found)",
         # Uses get_windows_host_ip from windows_ip_in_wsl.py
     )
-    p.add_argument(
-        "--port", "-P", type=int, default=11434, help="Ollama API port (default: 11434)"
-    )
-    p.add_argument(
-        "--model", "-m", default="mistral", help="Model name (default: mistral)"
-    )
+    p.add_argument("--port", "-P", type=int, default=11434, help="Ollama API port (default: 11434)")
+    p.add_argument("--model", "-m", default="mistral", help="Model name (default: mistral)")
     p.add_argument(
         "--temperature",
         "-t",
@@ -67,15 +70,33 @@ def parse_args():
         default=8192,
         help="Maximum tokens in context (num_ctx; default: server default)",
     )
-    p.add_argument(
-        "--runs", "-r", type=int, default=5, help="Number of timed runs (default: 5)"
-    )
+    p.add_argument("--runs", "-r", type=int, default=5, help="Number of timed runs (default: 5)")
     return p.parse_args()
 
 
-def call_ollama_api(host, port, model, prompt, temperature, num_predict, num_ctx):
+def call_ollama_api(
+    host: str,
+    port: int,
+    model: str,
+    prompt: str,
+    temperature: float,
+    num_predict: int,
+    num_ctx: int,
+) -> dict:
     """
     Call the Ollama HTTP /v1/completions endpoint and return the parsed JSON.
+
+    Args:
+        host (str): Host address.
+        port (int): Port number.
+        model (str): Model name.
+        prompt (str): Prompt to send.
+        temperature (float): Sampling temperature.
+        num_predict (int): Max tokens to generate.
+        num_ctx (int): Context window size.
+
+    Returns:
+        dict: Parsed JSON response from the API.
     """
     url = f"http://{host}:{port}/v1/completions"
     payload = {"model": model, "prompt": prompt, "temperature": temperature}
@@ -89,7 +110,13 @@ def call_ollama_api(host, port, model, prompt, temperature, num_predict, num_ctx
     return resp.json()
 
 
-def benchmark(args):
+def benchmark(args: argparse.Namespace) -> None:
+    """
+    Run the benchmark for the specified LLM model and print summary statistics.
+
+    Args:
+        args (argparse.Namespace): Parsed command-line arguments.
+    """
     print(f"→ Connecting to Ollama at http://{args.host}:{args.port}")
     print(f"  Model={args.model} | Temp={args.temperature} | Runs={args.runs}\n")
 

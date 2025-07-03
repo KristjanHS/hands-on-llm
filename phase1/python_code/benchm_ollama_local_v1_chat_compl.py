@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-# This script benchmarks the Ollama API by sending a chat completion request and measuring the
-# response time, while also collecting token usage statistics.
-# It uses the OpenAI-compatible /v1/chat/completions endpoint
+"""
+Benchmark the Ollama API by sending a chat completion request and measuring the response time.
+Uses the OpenAI-compatible /v1/chat/completions endpoint and reports token usage statistics.
+"""
 
 import argparse
 import time
@@ -10,7 +11,13 @@ import requests
 from phase1.python_code.windows_ip_in_wsl import get_windows_host_ip
 
 
-def parse_args():
+def parse_args() -> argparse.Namespace:
+    """
+    Parse command-line arguments for the benchmarking script.
+
+    Returns:
+        argparse.Namespace: Parsed arguments.
+    """
     p = argparse.ArgumentParser(
         description="Benchmark local Ollama via its OpenAI-compatible API with accurate token stats"
     )
@@ -23,12 +30,8 @@ def parse_args():
         # localhost  # WSL ollama host
         # 172.22.208.1  # Windows ollama host
     )
-    p.add_argument(
-        "--port", "-P", type=int, default=11434, help="Ollama API port (default: 11434)"
-    )
-    p.add_argument(
-        "--model", "-m", default="mistral", help="Model name (default: mistral)"
-    )
+    p.add_argument("--port", "-P", type=int, default=11434, help="Ollama API port (default: 11434)")
+    p.add_argument("--model", "-m", default="mistral", help="Model name (default: mistral)")
     p.add_argument(
         "--temperature",
         "-t",
@@ -62,13 +65,20 @@ def parse_args():
         default=256,
         help="Maximum tokens to generate (num_predict; default: server default)",
     )
-    p.add_argument(
-        "--runs", "-r", type=int, default=5, help="Number of timed runs (default: 5)"
-    )
+    p.add_argument("--runs", "-r", type=int, default=5, help="Number of timed runs (default: 5)")
     return p.parse_args()
 
 
-def call_chat_completions(args):
+def call_chat_completions(args: argparse.Namespace) -> tuple[dict, int, int]:
+    """
+    Call the Ollama HTTP /v1/chat/completions endpoint and return the parsed JSON and token usage.
+
+    Args:
+        args (argparse.Namespace): Parsed command-line arguments.
+
+    Returns:
+        tuple: (response JSON, prompt_tokens, completion_tokens)
+    """
     url = f"http://{args.host}:{args.port}/v1/chat/completions"
     headers = {"Content-Type": "application/json"}
     payload = {
@@ -92,7 +102,13 @@ def call_chat_completions(args):
     return data, pt, ct
 
 
-def benchmark(args):
+def benchmark(args: argparse.Namespace) -> None:
+    """
+    Run the benchmark for the specified LLM model and print summary statistics.
+
+    Args:
+        args (argparse.Namespace): Parsed command-line arguments.
+    """
     print(
         f"→ Connecting to Ollama-compatible endpoint at "
         f"http://{args.host}:{args.port}/v1/chat/completions"
