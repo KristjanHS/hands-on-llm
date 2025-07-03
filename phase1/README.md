@@ -6,11 +6,11 @@ This phase focuses on working with Large Language Models (LLMs) locally (and a l
 
 ```
 phase1/
-├── src/                    # Python source files for LLM interactions
+├── python_code/            # Python source files for LLM interactions
 ├── jupyter_notebooks/      # Local experimentation notebooks
 ├── colab_notebooks/        # Google Colab integration examples
-├── bash_scripts/          # Utility scripts for model management
-└── txt/                   # Sample text data for experiments
+├── bash_scripts/           # Utility scripts for model management
+└── txt/                    # Sample text data for experiments
 ```
 
 ## Key Components
@@ -32,7 +32,7 @@ phase1/
 
 ### 4. Notebooks
 - Interactive examples and tutorials
-- Google Colab integration
+- Google Colab integration with local clients
 - Performance analysis and visualization
 
 ## Getting Started
@@ -66,13 +66,11 @@ Key requirements (see `requirements.txt` for full list):
 ### Local API Interaction
 ```python
 # Example from benchm_ollama_local_api_chat.py
-from helper_functions import setup_ollama_client
-client = setup_ollama_client()
-response = client.chat(model="mistral", messages=[{"role": "user", "content": "Hi!"}])
+from phase1.python_code.windows_ip_in_wsl import get_windows_host_ip
 ```
 
 ### Benchmarking
-Various scripts in `src/` demonstrate different approaches to model benchmarking and performance analysis.
+Various scripts in `python_code/` demonstrate different approaches to model benchmarking and performance analysis.
 
 ## Notes & Best Practices
 

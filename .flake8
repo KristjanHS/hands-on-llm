@@ -1,6 +1,7 @@
 # .flake8
 [flake8]
 max-line-length = 100
+exclude = .git,__pycache__,.venv,venv,build,dist
 
 #extend-ignore = [
 #    'E501',  # Ignore line length errors

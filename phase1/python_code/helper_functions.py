@@ -1,6 +1,10 @@
+"""
+Helper functions for LLM and benchmarking scripts.
+"""
+
 # this helper_functions was modified to use local Ollama server instead of OpenAI's cloud API.
 
-#import gradio as gr
+# import gradio as gr
 import os
 from openai import OpenAI
 from dotenv import load_dotenv
@@ -39,7 +43,7 @@ def print_llm_response(prompt):
     except TypeError as e:
         print("Error:", str(e))
 '''
-        
+
 ''' This OpenAI function is replaced by local Ollama function VER 3 below.
 def get_llm_response(prompt):
     """This function takes as input a prompt, which must be a string enclosed in quotation marks,
@@ -123,6 +127,8 @@ def get_llm_response(prompt):
 
 from langchain_ollama import ChatOllama
 from langchain_core.messages import AIMessage
+
+
 def get_llm_response(
     prompt: str,
     *,
@@ -148,7 +154,9 @@ def get_llm_response(
         temperature=temperature,
         num_predict=num_predict,
         num_ctx=num_ctx,
-        streaming=False,   # one-shot response, no token loop
+        streaming=False,  # one-shot response, no token loop
     )
     message: AIMessage = llm.invoke(prompt)  # returns a ChatMessage
-    return message.content.strip()  # Return the response text, ensuring it ends with a newline for consistency.
+    return (
+        message.content.strip()
+    )  # Return the response text, ensuring it ends with a newline for consistency.
