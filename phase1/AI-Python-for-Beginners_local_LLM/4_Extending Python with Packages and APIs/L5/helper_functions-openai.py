@@ -3,7 +3,8 @@ import os
 from openai import OpenAI
 from dotenv import load_dotenv
 import requests
-import json
+
+# import json
 import folium
 
 
@@ -77,22 +78,22 @@ def display_map():
     # Add a click event to capture the coordinates
     m.add_child(folium.LatLngPopup())
     title_html = """
-	<div style="
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 100%; 
-	height: 50px; 
-	border:0px solid grey; 
-	z-index:9999; 
-	font-size:30px;
-	padding: 5px;
-	background-color:white;
-	text-align: center;
-	">
-	&nbsp;<b>Click to view coordinates</b>
-	</div>
-	"""
+        <div style="
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 50px;
+        border:0px solid grey;
+        z-index:9999;
+        font-size:30px;
+        padding: 5px;
+        background-color:white;
+        text-align: center;
+        ">
+        &nbsp;<b>Click to view coordinates</b>
+        </div>
+"""
 
     m.get_root().html.add_child(folium.Element(title_html))
 

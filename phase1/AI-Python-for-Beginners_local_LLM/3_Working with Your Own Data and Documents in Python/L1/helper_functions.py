@@ -6,14 +6,16 @@ from openai import OpenAI
 from dotenv import load_dotenv
 import csv
 
-"""
+from langchain_ollama import ChatOllama
+from langchain_core.messages import AIMessage
+
+
 # Get the OpenAI API key from the .env file
-load_dotenv('.env', override=True)
-openai_api_key = os.getenv('OPENAI_API_KEY')
+load_dotenv(".env", override=True)
+openai_api_key = os.getenv("OPENAI_API_KEY")
 
 # Set up the OpenAI client
 client = OpenAI(api_key=openai_api_key)
-"""
 
 
 def read_csv_dict(csv_file_path):
@@ -37,7 +39,6 @@ def read_csv_dict(csv_file_path):
     return data_dict
 
 
-'''
 def print_llm_response(prompt):
     """This function takes as input a prompt, which must be a string enclosed in quotation marks,
     and passes it to OpenAI's GPT3.5 model. The function then prints the response of the model.
@@ -60,7 +61,7 @@ def print_llm_response(prompt):
         print(response)
     except TypeError as e:
         print("Error:", str(e))
-'''
+
 
 ''' This OpenAI function is replaced by local Ollama function VER 3 below.
 def get_llm_response(prompt):
@@ -86,7 +87,7 @@ def get_llm_response(prompt):
 '''This function is replaced by VER 3 function below.'
 from langchain_ollama import OllamaLLM
 def get_llm_response(prompt):
-    """ 
+    """
     # VER 1 of local Ollama function: NB!!! it requires token loop because of streaming
     """
     llm = OllamaLLM(model="mistral", base_url="http://localhost:11434")
@@ -104,7 +105,7 @@ def get_llm_response(prompt):
 # This function is replaced by VER 3 function below.
 # Set up the OpenAI client to hit Ollama instead of the cloud
 client = OpenAI(
-    api_key='ollama',              
+    api_key='ollama',
     base_url="http://localhost:11434/v1" # Ollama’s OpenAI-compatible endpoint
 )
 def get_llm_response(prompt):
@@ -122,7 +123,9 @@ def get_llm_response(prompt):
             {"role": "user", "content": prompt},
         ],
         temperature=0.0,
-        stream=False,          # to stream you pass stream=True in the payload; if you omit the field (or set False) you stay in non-streaming mode.
+        stream=False,
+        # to stream you pass stream=True in the payload;
+        # if you omit the field (or set False) you stay in non-streaming mode.
     )
     #  if streaming is enabled, uncomment the following lines to handle the response
     """
@@ -138,9 +141,6 @@ def get_llm_response(prompt):
     response = completion.choices[0].message.content
     return response + "\n VER 2 WORKS!"
 '''
-
-from langchain_ollama import ChatOllama
-from langchain_core.messages import AIMessage
 
 
 def get_llm_response(
