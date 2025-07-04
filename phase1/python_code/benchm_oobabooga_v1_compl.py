@@ -24,12 +24,8 @@ def parse_args():
         # WIN_IP detected dynamically for Windows oobabooga host
         # 127.0.0.1  # WSL oobabooga host
     )
-    p.add_argument(
-        "--port", "-P", type=int, default=5000, help="API port (default: 5000)"
-    )
-    p.add_argument(
-        "--model", "-M", default="mistral", help="Model name (default: mistral)"
-    )
+    p.add_argument("--port", "-P", type=int, default=5000, help="API port (default: 5000)")
+    p.add_argument("--model", "-M", default="mistral", help="Model name (default: mistral)")
     p.add_argument(
         "--temperature",
         "-T",
@@ -64,9 +60,7 @@ def parse_args():
         default=254,
         help="Max new tokens per request (default: 254)",
     )
-    p.add_argument(
-        "--runs", "-r", type=int, default=5, help="Number of timed runs (default: 5)"
-    )
+    p.add_argument("--runs", "-r", type=int, default=5, help="Number of timed runs (default: 5)")
     return p.parse_args()
 
 
