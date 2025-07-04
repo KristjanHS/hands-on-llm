@@ -8,8 +8,8 @@ import folium
 
 
 # Get the OpenAI API key from the .env file
-load_dotenv('.env', override=True)
-openai_api_key = os.getenv('OPENAI_API_KEY')
+load_dotenv(".env", override=True)
+openai_api_key = os.getenv("OPENAI_API_KEY")
 
 # Set up the OpenAI client
 client = OpenAI(api_key=openai_api_key)
@@ -57,4 +57,3 @@ def get_llm_response(prompt):
     )
     response = completion.choices[0].message.content
     return response
-

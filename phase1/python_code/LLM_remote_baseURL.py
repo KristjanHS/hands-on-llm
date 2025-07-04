@@ -2,7 +2,7 @@
 from langchain_ollama import OllamaLLM
 
 llm = OllamaLLM(
-    model="llama3:instruct",                             # tag that exists locally
+    model="llama3:instruct",  # tag that exists locally
     base_url="https://nearby-adequately-python.ngrok-free.app",
     temperature=0.0,
 )

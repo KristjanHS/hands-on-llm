@@ -7,11 +7,12 @@ import pandas as pd
 from IPython.display import display, HTML
 
 # Get the OpenAI API key from the .env file
-load_dotenv('.env', override=True)
-openai_api_key = os.getenv('OPENAI_API_KEY')
+load_dotenv(".env", override=True)
+openai_api_key = os.getenv("OPENAI_API_KEY")
 
 # Set up the OpenAI client
 client = OpenAI(api_key=openai_api_key)
+
 
 def print_llm_response(prompt):
     """This function takes as input a prompt, which must be a string enclosed in quotation marks,
@@ -62,4 +63,3 @@ def display_table(data):
 
     # Display the DataFrame as an HTML table
     display(HTML(df.to_html(index=False)))
-

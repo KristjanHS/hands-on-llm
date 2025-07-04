@@ -7,7 +7,7 @@ import torch
 
 # print(torch.__config__.show()) # Uncomment to see detailed PyTorch configuration
 
-print("pytorch using physical CPU cores: ",torch.get_num_threads())
+print("pytorch using physical CPU cores: ", torch.get_num_threads())
 
 print("CPU threads (logical processors): ", os.cpu_count())
 print("Physical cores: ", multiprocessing.cpu_count())

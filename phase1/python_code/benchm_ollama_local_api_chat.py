@@ -24,12 +24,8 @@ def parse_args():
         # localhost  # WSL ollama host
         # 172.22.208.1  # Windows ollama host
     )
-    p.add_argument(
-        "--port", "-P", type=int, default=11434, help="Ollama API port (default: 11434)"
-    )
-    p.add_argument(
-        "--model", "-m", default="mistral", help="Model name (default: mistral)"
-    )
+    p.add_argument("--port", "-P", type=int, default=11434, help="Ollama API port (default: 11434)")
+    p.add_argument("--model", "-m", default="mistral", help="Model name (default: mistral)")
     p.add_argument(
         "--temperature",
         "-t",
@@ -63,9 +59,7 @@ def parse_args():
         default=128,
         help="Maximum tokens to generate (num_predict; default: server default)",
     )
-    p.add_argument(
-        "--runs", "-r", type=int, default=5, help="Number of timed runs (default: 5)"
-    )
+    p.add_argument("--runs", "-r", type=int, default=5, help="Number of timed runs (default: 5)")
     return p.parse_args()
 
 

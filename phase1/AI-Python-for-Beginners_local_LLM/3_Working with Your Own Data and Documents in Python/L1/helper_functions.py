@@ -1,6 +1,6 @@
 # this helper_functions was modified to use local Ollama server instead of OpenAI's cloud API.
 
-#import gradio as gr
+# import gradio as gr
 import os
 from openai import OpenAI
 from dotenv import load_dotenv
@@ -15,6 +15,7 @@ openai_api_key = os.getenv('OPENAI_API_KEY')
 client = OpenAI(api_key=openai_api_key)
 """
 
+
 def read_csv_dict(csv_file_path):
     """This function takes a csv file and loads it as a dict."""
 
@@ -22,10 +23,10 @@ def read_csv_dict(csv_file_path):
     data_list = []
 
     # Open the CSV file
-    with open(csv_file_path, mode='r') as file:
+    with open(csv_file_path, mode="r") as file:
         # Create a CSV reader object
         csv_reader = csv.DictReader(file)
-    
+
         # Iterate over each row in the CSV file
         for row in csv_reader:
             # Append the row to the data list
@@ -34,6 +35,7 @@ def read_csv_dict(csv_file_path):
     # Convert the list to a dictionary
     data_dict = {i: data_list[i] for i in range(len(data_list))}
     return data_dict
+
 
 '''
 def print_llm_response(prompt):
@@ -59,7 +61,7 @@ def print_llm_response(prompt):
     except TypeError as e:
         print("Error:", str(e))
 '''
-        
+
 ''' This OpenAI function is replaced by local Ollama function VER 3 below.
 def get_llm_response(prompt):
     """This function takes as input a prompt, which must be a string enclosed in quotation marks,
@@ -139,6 +141,8 @@ def get_llm_response(prompt):
 
 from langchain_ollama import ChatOllama
 from langchain_core.messages import AIMessage
+
+
 def get_llm_response(
     prompt: str,
     *,
@@ -160,10 +164,12 @@ def get_llm_response(
         base_url=base_url,
         system=system_prompt,
         temperature=temperature,
-        streaming=False,   # one-shot response, no token loop
+        streaming=False,  # one-shot response, no token loop
     )
     message: AIMessage = llm.invoke(prompt)  # returns a ChatMessage
-    return message.content.strip() + "\n VER 3 WORKS!"  # Return the response text, ensuring it ends with a newline for consistency.
+    return (
+        message.content.strip() + "\n VER 3 WORKS!"
+    )  # Return the response text, ensuring it ends with a newline for consistency.
 
 
 def get_chat_completion(prompt, history):

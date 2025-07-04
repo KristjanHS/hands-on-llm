@@ -19,9 +19,7 @@ def parse_args():
     p = argparse.ArgumentParser(
         description="Benchmark local Ollama inference using get_llm_response"
     )
-    p.add_argument(
-        "--prompt", "-p", default="Hello, how are you?", help="Text prompt to send"
-    )
+    p.add_argument("--prompt", "-p", default="Hello, how are you?", help="Text prompt to send")
     p.add_argument(
         "--model",
         "-m",
@@ -45,26 +43,20 @@ def parse_args():
         default=0.0,
         help="Sampling temperature (default: 0.0)",
     )
-    p.add_argument(
-        "--runs", "-r", type=int, default=5, help="Number of timed runs (default: 5)"
-    )
+    p.add_argument("--runs", "-r", type=int, default=5, help="Number of timed runs (default: 5)")
     return p.parse_args()
 
 
 def benchmark(prompt: str, model: str, base_url: str, temperature: float, runs: int):
     # Warmup
     print("Warming up…")
-    _ = get_llm_response(
-        prompt, model=model, base_url=base_url, temperature=temperature
-    )
+    _ = get_llm_response(prompt, model=model, base_url=base_url, temperature=temperature)
     print("Warmup done.\n")
 
     times = []
     for i in range(1, runs + 1):
         start = time.perf_counter()
-        resp = get_llm_response(
-            prompt, model=model, base_url=base_url, temperature=temperature
-        )
+        resp = get_llm_response(prompt, model=model, base_url=base_url, temperature=temperature)
         duration = time.perf_counter() - start
         times.append(duration)
         # Optionally inspect resp length to compute tokens later
