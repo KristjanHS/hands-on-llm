@@ -17,5 +17,8 @@
     "cornflakes.linter.run": "onType",
     "python.analysis.diagnosticSeverityOverrides": {
         "reportMissingImports": "none" // optional: hides some Pylance noise
-    }
+    },
+    "githubPullRequests.ignoredPullRequestBranches": [
+        "main"
+    ]
 }
