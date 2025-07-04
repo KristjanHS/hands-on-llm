@@ -5,13 +5,14 @@ from dotenv import load_dotenv
 import csv
 import ipywidgets as widgets
 from IPython.display import display, HTML
-import io
-import csv
+
+# import io
+# import csv
 import base64
 
 # Get the OpenAI API key from the .env file
 load_dotenv(".env", override=True)
-openai_api_key = os.getenv("OPENAI_API_KEY")
+openai_api_key = "aaa"  # os.getenv("OPENAI_API_KEY")
 
 # Set up the OpenAI client
 client = OpenAI(api_key=openai_api_key)
