@@ -1,4 +1,4 @@
-#import gradio as gr
+# import gradio as gr
 import os
 
 from openai import OpenAI
@@ -6,8 +6,8 @@ from dotenv import load_dotenv
 import csv
 
 # Get the OpenAI API key from the .env file
-load_dotenv('.env', override=True)
-openai_api_key = os.getenv('OPENAI_API_KEY')
+load_dotenv(".env", override=True)
+openai_api_key = os.getenv("OPENAI_API_KEY")
 
 # Set up the OpenAI client
 client = OpenAI(api_key=openai_api_key)
@@ -20,10 +20,10 @@ def read_csv_dict(csv_file_path):
     data_list = []
 
     # Open the CSV file
-    with open(csv_file_path, mode='r') as file:
+    with open(csv_file_path, mode="r") as file:
         # Create a CSV reader object
         csv_reader = csv.DictReader(file)
-    
+
         # Iterate over each row in the CSV file
         for row in csv_reader:
             # Append the row to the data list
@@ -94,5 +94,3 @@ def get_chat_completion(prompt, history):
     )
     response = completion.choices[0].message.content
     return response
-
-
