@@ -12,10 +12,14 @@ print(llm.invoke("Say hello in Estonian"))
 """
 IT WORKED against the remote Ollama server!
 The response is:
-(.venv) kristjans@DESKTOP-26A9125:~/projects/hands-on-llm/phase1$ /home/kristjans/projects/hands-on-llm/.venv/bin/python /home/kristjans/projects/hands-on-llm/phase1/src/L2-LLM_remote_baseURL.py
-In Estonian, you can say "Tere!" (pronounced "teh-reh") to say hello. This is a casual way of greeting someone.
+(.venv) kristjans@DESKTOP-26A9125:~/projects/hands-on-llm/phase1$
+ /home/kristjans/projects/hands-on-llm/.venv/bin/python
+ /home/kristjans/projects/hands-on-llm/phase1/src/L2-LLM_remote_baseURL.py
+In Estonian, you can say "Tere!" (pronounced "teh-reh")
+to say hello. This is a casual way of greeting someone.
 
-If you want to be more formal, you can say "Hei!" (pronounced "hay"), which is similar to saying "hello" in English.
+If you want to be more formal, you can say "Hei!" (pronounced "hay"),
+which is similar to saying "hello" in English.
 
 There are also other ways to greet someone in Estonian, depending on the time of day:
 
