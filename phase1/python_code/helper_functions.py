@@ -1,5 +1,5 @@
 from langchain_ollama import ChatOllama
-from langchain_core.messages import AIMessage
+from langchain_core.messages import AIMessage, HumanMessage
 
 """
 Helper functions for LLM and benchmarking scripts.
@@ -145,7 +145,8 @@ def get_llm_response(
         "You are a helpful but terse AI assistant who gets straight to the point."
     ),
     temperature: float = 0.0,
-    num_predict: int = 256,  # max new tokens
+    num_predict: int = 100,  # Reduced default value
+    stream: bool = False,
     num_ctx: int = 8192,  # context size
 ) -> str:  # Send `prompt` to a local Ollama model and return the full reply text.
     """
@@ -154,6 +155,11 @@ def get_llm_response(
     This function is replacing the OpenAI get_llm_response function above.
     It uses the OllamaLLM class from the langchain_ollama package to interact with a local Ollama
     server.
+    Send `prompt` to a local Ollama model and return the full reply text.
+    If stream=True, the raw response is returned as a string that you can parse into JSON.
+    If stream=False, the text content of the response is returned as a string.
+
+    Note: the stream=True case returns a raw JSON string, not a parsed object.
     """
     llm = ChatOllama(
         model=model,
@@ -162,8 +168,10 @@ def get_llm_response(
         temperature=temperature,
         num_predict=num_predict,
         num_ctx=num_ctx,
-        streaming=False,  # one-shot response, no token loop
+        streaming=stream,
     )
-    message: AIMessage = llm.invoke(prompt)  # returns a ChatMessage
-    return message.content.strip()
-    # Return the response text, ensuring it ends with a newline for consistency.
+    # If streaming, return the raw response so the caller can parse the JSON.
+    if stream:
+        return llm.invoke(prompt)
+    else:
+        return llm.generate([[HumanMessage(content=prompt)]]).generations[0][0].text.strip()
