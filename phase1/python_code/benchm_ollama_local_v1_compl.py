@@ -105,7 +105,7 @@ def call_ollama_api(
     if num_ctx is not None:
         payload["context_window"] = num_ctx
 
-    resp = requests.post(url, json=payload)
+    resp = requests.post(url=url, json=payload)
     resp.raise_for_status()
     return resp.json()
 
