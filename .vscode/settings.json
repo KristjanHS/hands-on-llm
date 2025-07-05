@@ -15,7 +15,7 @@
     // flake8 linting config. 
     // using {workspaceRoot} because ${workspaceFolder} is not resolved by cornflakes correctly
     "cornflakes.linter.executablePath": "${workspaceRoot}/.venv/bin/flake8",
-    "cornflakes.linter.run": "onType",
+    "cornflakes.linter.run": "onSave",
     "python.analysis.diagnosticSeverityOverrides": {
         "reportMissingImports": "none" // optional: hides some Pylance noise
     },
