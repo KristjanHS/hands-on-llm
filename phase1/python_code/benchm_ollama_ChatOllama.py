@@ -72,6 +72,26 @@ def parse_args():
     return p.parse_args()
 
 
+def _get_token_counts(response: any) -> tuple[int, int]:
+    """Extracts prompt and completion token counts from a LangChain AIMessage.
+
+    Args:
+        response: The response object from `get_llm_response`.
+
+    Returns:
+        A tuple containing (prompt_tokens, completion_tokens).
+        Returns (-1, -1) if token counts cannot be determined.
+    """
+    if hasattr(response, "usage_metadata") and response.usage_metadata is not None:
+        usage = response.usage_metadata
+        prompt_tokens = usage.get("input_tokens", -1)
+        completion_tokens = usage.get("output_tokens", -1)
+        return prompt_tokens, completion_tokens
+
+    print(f"Unexpected response format: {type(response)}, cannot count tokens accurately.")
+    return -1, -1
+
+
 def benchmark(
     prompt: str,
     model: str,
@@ -83,6 +103,7 @@ def benchmark(
 ):
     # Warmup
     print("Warming up…")
+    # the stream parameter is
     _ = get_llm_response(
         prompt,
         model=model,
@@ -111,17 +132,7 @@ def benchmark(
         duration = end - start
         times.append(duration)
 
-        prompt_tokens = -1
-        completion_tokens = -1
-        if hasattr(streamed_resp, "usage_metadata") and streamed_resp.usage_metadata is not None:
-            usage = streamed_resp.usage_metadata
-            prompt_tokens = usage.get("input_tokens", -1)
-            completion_tokens = usage.get("output_tokens", -1)
-        else:
-            print(
-                f"Unexpected response format: {type(streamed_resp)}, cannot count tokens accurately."
-            )
-
+        prompt_tokens, completion_tokens = _get_token_counts(streamed_resp)
         if prompt_tokens != -1 and completion_tokens != -1:
             prompt_token_counts.append(prompt_tokens)
             completion_token_counts.append(completion_tokens)
@@ -139,15 +150,19 @@ def benchmark(
     stdev_latency = statistics.stdev(times) if len(times) > 1 else 0.0
     total_prompt_tokens = sum(prompt_token_counts)
     total_completion_tokens = sum(completion_token_counts)
+    total_tokens = total_prompt_tokens + total_completion_tokens
     total_time = sum(times)
-    avg_throughput = total_completion_tokens / total_time if total_time > 0 else 0.0
+    avg_throughput_completion = total_completion_tokens / total_time if total_time > 0 else 0.0
+    avg_throughput_total = total_tokens / total_time if total_time > 0 else 0.0
 
     print("\n=== Summary ===")
     print(f"Runs completed:      {len(completion_token_counts)}/{runs}")
     print(f"Avg. latency:        {avg_latency:.3f} ± {stdev_latency:.3f} s")
     print(f"Total prompt tokens:     {total_prompt_tokens}")
     print(f"Total completion tokens: {total_completion_tokens}")
-    print(f"Avg. throughput:     {avg_throughput:.1f} tokens/s (completion tokens)")
+    print(f"Total tokens (all):      {total_tokens}")
+    print(f"Avg. throughput:     {avg_throughput_completion:.1f} tokens/s (completion tokens)")
+    print(f"Avg. throughput:     {avg_throughput_total:.1f} tokens/s (total tokens)")
 
 
 if __name__ == "__main__":
