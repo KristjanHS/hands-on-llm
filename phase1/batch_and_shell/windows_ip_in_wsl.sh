@@ -26,9 +26,4 @@ get_windows_host_ip() {
 }
 
 # Example usage
-host_ip=$(get_windows_host_ip)
-if [[ $? -eq 0 ]]; then
-    echo "Windows Host IP: $host_ip"
-else
-    echo "Failed to get valid Windows IP."
-fi
+get_windows_host_ip
