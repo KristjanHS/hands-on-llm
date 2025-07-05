@@ -25,9 +25,7 @@ message = {
 
 # Use the ollama.chat function to send the image and retrieve the description.
 try:
-    response = ollama_client.chat(
-        model="llava:13b", messages=[message]  # Specify LLaVA model size and version hosted
-    )
+    response = ollama_client.chat(model="llava:13b", messages=[message])  # Specify LLaVA model size and version hosted
 except ollama_client.ResponseError as e:
     print("Error:", e.error)
 
