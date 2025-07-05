@@ -114,6 +114,7 @@ def benchmark(
     )
     print("Warmup done.\n")
 
+    #
     times = []
     prompt_token_counts = []
     completion_token_counts = []

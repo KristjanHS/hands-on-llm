@@ -1,30 +1,38 @@
 # --- Core ML / GPU stack ---
-# torchvision==0.20.1+cu121 --index-url https://download.pytorch.org/whl/cu121
-# these will not work as part of requirements.txt, since they are not available on PyPI
-# instead, use the Makefile to install the correct version of torch
-# or install manually:
+torch==2.5.1+cu121 # (ensure this matches the version in the Makefile)
+# this will not work as part of requirements.txt, since they are not available on PyPI
+# instead, use the Makefile to install the correct version of torch or install manually:
 # pip install torch==2.5.1+cu121 torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121# torch==2.5.1+cu121 --index-url https://download.pytorch.org/whl/cu121
-# torchaudio optional: add if using it
 
-# --- Jupyter + IPython ---
+# --- Jupyter & IPython ---
 notebook
 ipykernel
 jupyterlab
+ipywidgets
 ipython
 
-# --- Pretty outputs ---
+# --- Visualization & Output Formatting ---
+matplotlib
+matplotlib-inline
+Pillow
 rich
 
-# --- Required by torchvision, Jupyter ---
-Pillow
-matplotlib-inline
-traitlets
-
-# --- Optional scientific utilities ---
+# --- Data Handling & Scientific Computing ---
 numpy
+pandas
+scikit-learn
+scipy
 packaging
+
+# --- LLM & AI Tooling ---
+langchain-core
+langchain-ollama
+ollama
+openai
+
+# --- Environment & Configuration ---
+python-dotenv
+
+# --- Development & Testing Utilities ---
 black
 pytest
-
-# --- Ollama ---
-ollama

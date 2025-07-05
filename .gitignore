@@ -4,10 +4,13 @@ bin/
 
 # Virtualenv
 .venv/
+venv/
 
 # Python cache
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
 .pytest_cache/
 
 # Jupyter
@@ -18,3 +21,19 @@ __pycache__/
 
 # Logs
 logs/
+
+# Ignore distribution and packaging files
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
