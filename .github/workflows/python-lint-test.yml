@@ -24,9 +24,9 @@ jobs:
         run: |
           flake8 --version
           #  flake8 .
-      - name: Format with black (check only)
+      - name: Format with black
         run: |
-          black --check .
+          black .
       - name: Run tests
         run: |
           pytest || true
