@@ -19,7 +19,7 @@ This repository tracks my hands-on learning journey with Large Language Models (
 - API integrations for various endpoints, both local and remote (local PC to colab)
 - Local model deployment (Ollama and Oobabooga - both tried in Windows 10 and inside WSL 2 (ubuntu))
 - Performance analysis and optimization (It turned out the Windows Ollama is fastest of my 4 local alternative setups)
-- AI assisted coding in VSCode: trying out Copilot, Gemini Code Assist, and Continue (on local AI models, instead of API to cloud AI)
+- AI assisted code, review, debug, test, refactor in VSCode and Github: Copilot vs Gemini Code Assist vs Continue(on local ollama)
 
 MY NEXT STEPs PLAN:
 
