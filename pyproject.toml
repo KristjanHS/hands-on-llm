@@ -15,6 +15,6 @@ dependencies = [
 ]
 
 [tool.black]
-line-length = 100
+line-length = 120
 skip-string-normalization = false
 target-version = ["py311"]
