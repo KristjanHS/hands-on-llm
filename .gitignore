@@ -4,6 +4,7 @@ bin/
 
 # Virtualenv
 .venv/
+.cu121
 venv/
 
 # Python cache
@@ -37,3 +38,4 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
+cuda-keyring_*.deb
