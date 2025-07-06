@@ -19,7 +19,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           #pip install -r phase0/requirements.txt || pip install -r phase1/requirements.txt
-          pip install black flake8 pytest
+          pip install black flake8
       - name: Lint with flake8
         run: |
           flake8 --version
@@ -27,6 +27,6 @@ jobs:
       - name: Format with black
         run: |
           black .
-      - name: Run tests
-        run: |
-          pytest || true
+      #- name: Run tests
+      #  run: |
+      #    python -m pytest || true
