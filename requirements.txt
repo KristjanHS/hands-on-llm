@@ -1,0 +1,40 @@
+# --- Core ML / GPU stack ---
+# torch==2.5.1+cu121 # (ensure this matches the version in the Makefile)
+# this will not work as part of requirements.txt, since they are not available on PyPI
+# instead, use the Makefile to install the correct version of torch or install manually:
+# pip install torch==2.7.1 torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
+# OR for older versions:
+# pip install torch==2.5.1+cu121 torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+
+# --- Jupyter & IPython ---
+notebook
+ipykernel
+jupyterlab
+ipywidgets
+ipython
+
+# --- Visualization & Output Formatting ---
+matplotlib
+matplotlib-inline
+Pillow
+rich
+
+# --- Data Handling & Scientific Computing ---
+numpy
+pandas
+scikit-learn
+scipy
+packaging
+
+# --- LLM & AI Tooling ---
+langchain-core
+langchain-ollama
+ollama
+openai
+
+# --- Environment & Configuration ---
+python-dotenv
+
+# --- Development & Testing Utilities ---
+black
+pytest
