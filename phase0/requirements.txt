@@ -1,7 +1,10 @@
 # --- Core ML / GPU stack ---
-torch==2.5.1+cu121 --index-url https://download.pytorch.org/whl/cu121
-torchvision==0.20.1+cu121 --index-url https://download.pytorch.org/whl/cu121
-# torchaudio optional: add if using it
+# torch==2.5.1+cu121 # (ensure this matches the version in the Makefile)
+# this will not work as part of requirements.txt, since they are not available on PyPI
+# instead, use the Makefile to install the correct version of torch or install manually:
+# pip install torch==2.7.1 torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
+# OR for older versions:
+# pip install torch==2.5.1+cu121 torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
 
 # --- Jupyter + IPython ---
 notebook
@@ -22,3 +25,7 @@ numpy
 packaging
 black
 pytest
+
+pre_commit
+flake8
+mypy
