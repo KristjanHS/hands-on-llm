@@ -1,6 +1,6 @@
 # 🚀 My Hands-On LLM Learning Journey
 
-This repository tracks my hands-on learning journey with Large Language Models (LLMs) and Small Language Models (SLM), focusing on practical implementation and experimentation. Each phase builds upon the previous one, creating a comprehensive understanding of LLM development from environment setup to AI related projects (RAG, AI safety, ...).
+This repository tracks my hands-on learning journey with Large Language Models (LLMs) and Small Language Models (SLM), focusing on practical implementation and experimentation. Each phase builds upon the previous one, creating a comprehensive understanding of LLM development from environment setup to AI related projects (Python, notebooks, RAG, AI safety, ...).
 
 ## 🧭 Phases
 
@@ -8,18 +8,18 @@ This repository tracks my hands-on learning journey with Large Language Models (
 > *Goal:* Set up robust development environment (WSL2 + Python + CUDA + PyTorch GPU)
 - Complete WSL2 configuration with GPU support
 - Python 3.11 environment setup
-- VScode IDE setup + github, copilot, WSL venv
+- VScode IDE setup + github, copilot, WSL 2 venv
 - CUDA toolkit and PyTorch integration
-- Jupyter notebook first tests
+- Jupyter notebook first tests on local GPU
 - Basic GPU validation tests via shell
 
 ### ✅ [Phase 1](./phase1/)
-> *Goal:* Local LLM experimentation and integration
-- Interactive notebooks and examples to get started with AI Python
-- API integrations for various endpoints, both local and remote (eg local to colab)
+> *Goal:* Local LLM experimentation and integration, incl AI assisted coding
+- Interactive notebooks (Colab+Ngrok, GitHub Codespaces) and examples to get started with Python for AI
+- API integrations for various endpoints, both local and remote (local PC to colab)
 - Local model deployment (Ollama and Oobabooga - both tried in Windows 10 and inside WSL 2 (ubuntu))
-- Multiple model architectures
 - Performance analysis and optimization (It turned out the Windows Ollama is fastest of my 4 local alternative setups)
+- AI assisted coding in VSCode: trying out Copilot, Gemini Code Assist, and Continue (on local AI models, instead of API to cloud AI)
 
 MY NEXT STEPs PLAN:
 
@@ -47,12 +47,11 @@ MY NEXT STEPs PLAN:
 
 ## 📌 Why This Exists
 
-This repository serves as both a learning journal and a practical reference for LLM development. It demonstrates:
+This repository serves as both a learning journal and a practical reference for LLM development.
+It demonstrates:
 - Setting up a robust development environment
 - Working with local LLM deployments
 - Understanding model behavior and performance
 - Practical implementation patterns and best practices
 
-The goal is to provide a clear path from initial setup to advanced LLM applications, with each phase building upon previous knowledge.M Learning Journey
-
-This repository tracks my hands-on learning with Python, GitHub, WSL, and Large Language Models (LLMs). Each phase is a self-contained learning project.
+The goal is to provide a clear path from initial setup to advanced LLM applications, with each phase building upon previous knowledge.
