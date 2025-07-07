@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # Text-completion style (LLM interface) ------------
 from langchain_ollama import OllamaLLM
 

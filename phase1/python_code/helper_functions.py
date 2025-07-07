@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from langchain_ollama import ChatOllama
 from langchain_core.messages import AIMessage, HumanMessage
 
@@ -141,9 +142,7 @@ def get_llm_response(
     *,
     model: str = "mistral",
     base_url: str = "http://localhost:11434",
-    system_prompt: str = (
-        "You are a helpful but terse AI assistant who gets straight to the point."
-    ),
+    system_prompt: str = ("You are a helpful but terse AI assistant who gets straight to the point."),
     temperature: float = 0.0,
     num_predict: int = 100,  # Reduced default value
     stream: bool = False,
