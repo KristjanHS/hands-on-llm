@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import weaviate
 import os
 

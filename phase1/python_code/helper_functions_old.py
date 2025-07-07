@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # this helper_functions was modified to use local Ollama server instead of OpenAI's cloud API.
 
 # import gradio as gr
@@ -130,9 +131,7 @@ def get_llm_response(
     *,
     model: str = "mistral",
     base_url: str = "http://localhost:11434",
-    system_prompt: str = (
-        "You are a helpful but terse AI assistant who gets straight to the point."
-    ),
+    system_prompt: str = ("You are a helpful but terse AI assistant who gets straight to the point."),
     temperature: float = 0.0,
 ) -> str:  # Send `prompt` to a local Ollama model and return the full reply text.
     """
@@ -149,6 +148,4 @@ def get_llm_response(
         streaming=False,  # one-shot response, no token loop
     )
     message: AIMessage = llm.invoke(prompt)  # returns a ChatMessage
-    return (
-        message.content.strip()
-    )  # Return the response text, ensuring it ends with a newline for consistency.
+    return message.content.strip()  # Return the response text, ensuring it ends with a newline for consistency.

@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from rich.console import Console
 from rich.panel import Panel
 

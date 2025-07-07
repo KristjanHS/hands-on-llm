@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import torch, xformers
 
 print("Torch:", torch.__version__, torch.version.cuda)

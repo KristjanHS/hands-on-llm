@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import os
 from langchain_nomic import NomicEmbeddings
 from langchain_community.vectorstores import FAISS
