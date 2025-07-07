@@ -54,13 +54,13 @@ for inputs, labels in dataloader:
 * Forward-only (“inference”) workloads run a single pass through the encoder and return the hidden states; no optimizer steps occur. This is the common pattern for retrieval or feature extraction. 
 * Training/finetuning adds a loss (contrastive, MSE, etc.) and back-prop to update the encoder, so gradients and optimizer steps are involved. 
 
-## 🔍 Key Considerations
-
-### **Choosing `dtype`**:
+## **Choosing `dtype`**:
 
   * `torch.float16` = FP16, maximum raw speed on Ampere, but slightly smaller dynamic range for generative models. 
   * `torch.bfloat16`= BF16, ~95 % of FP32 dynamic range for generative models, with only ~2 % speed penalty.
   * FP16 vs BF16 quality is usually identical for Classification or Embedding models!
+
+## 🔍 Key Considerations
 
 * **Placement of `autocast`**: Ensure that `torch.compile` wraps the model before entering the `autocast` context. Placing `autocast` inside the compiled function can lead to graph breaks, reducing performance benefits.
 
