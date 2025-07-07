@@ -8,7 +8,7 @@ def benchmark_matmul():
     start = time.time()
     c = a @ b
     torch.cuda.synchronize() if torch.cuda.is_available() else None
-    print(f"Elapsed: {time.time() - start:.3f} s")
+    print(f"Elapsed: {time.time() - start:.3f} s {c} ")
 
 
 torch.set_num_threads(6)

@@ -37,4 +37,6 @@ python-dotenv
 
 # --- Development & Testing Utilities ---
 black
+flake8
 pytest
+pre-commit
