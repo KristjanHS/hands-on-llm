@@ -39,3 +39,6 @@ var/
 .installed.cfg
 *.egg
 cuda-keyring_*.deb
+
+# google cloud
+google-cloud-sdk/
