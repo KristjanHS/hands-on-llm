@@ -1,4 +1,4 @@
-# 🧠 Using `torch.compile` with `torch.cuda.amp` for Mixed Precision on RTX 3070 Mobile
+# 🧠 Better PyTorch performance on RTX 3070 Mobile
 
 This guide demonstrates how to combine `torch.compile` with PyTorch's Automatic Mixed Precision (AMP) to achieve significant performance improvements in both inference and training workloads on RTX 3070 Mobile GPU (Ampere).
 

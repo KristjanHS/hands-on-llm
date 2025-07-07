@@ -43,14 +43,6 @@ phase1/
 - Google Colab integration with local clients
 - Performance analysis and visualization
 
-### 5. Bash Scripts
-- Utility scripts for model management
-- Environment setup and configuration
-
-### 6. Documentation
-- Design notes and scratchpads
-- Usage examples and best practices
-
 ## Key Features
 
 - **Local Model Deployment**: Run models on your own hardware
