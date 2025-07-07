@@ -4,7 +4,7 @@ bin/
 
 # Virtualenv
 .venv/
-.cu121
+.cu121/
 venv/
 
 # Python cache
