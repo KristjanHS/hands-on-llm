@@ -1,12 +1,12 @@
-# Phase 1 — Local LLM Experimentation & AI‑assisted Coding
+# Phase 1 — Local LLM Experimentation & AI-assisted Coding
 
-Phase 1 is where the fun really starts: you host **Large Language Models locally** (inside
-WSL 2 **or** bare‑metal Linux), wire them into notebooks, VS Code and Colab tunnels, then
+Phase 1 is where the fun really starts: you host **Large Language Models locally** (inside
+WSL 2 **or** bare-metal Linux), wire them into notebooks, VS Code and Colab tunnels, then
 benchmark, profile and iterate.  Everything below is reproducible on a fresh machine and
-is distilled from \~2 400 shell history lines.
+is distilled from ~2 400 shell history lines.
 
-> **Upstream:** Phase 0 delivered working NVIDIA drivers, CUDA 12.x and a verified
-> PyTorch wheel.  *Do **that** first.*
+> **Upstream:** Phase 0 delivered working NVIDIA drivers, CUDA 12.x and a verified
+> PyTorch wheel.  *Do **that** first.*
 
 ---
 
@@ -18,30 +18,11 @@ phase1/
 ├── jupyter_notebooks/        # Local Jupyter experiments
 ├── colab_notebooks/          # Colab -> local tunnel examples
 ├── batch_and_shell/          # *.sh, *.bat utilities
-└── tests/                    # pytest tests
+├── tests/                    # pytest tests
+├── AI-Python-for-Beginners_local_LLM/ # Tutorial code
+├── configs/                  # Configuration files
+└── Gemini_CLI_setup.md       # Gemini CLI setup guide
 ```
-
-## Key Components
-
-### 1. Local LLM Integration
-- Ollama API integration and benchmarking
-- Local model hosting and inference
-- API compatibility layers
-
-### 2. Model Experimentation
-- Various model architectures (Mistral-7B, etc.)
-- Performance benchmarking
-- Different hosting approaches
-
-### 3. Python Tools & Libraries
-- LLM API wrappers and utilities
-- Helper functions for model interaction
-- Benchmarking and tracing tools
-
-### 4. Notebooks
-- Interactive examples and tutorials
-- Google Colab integration with local clients
-- Performance analysis and visualization
 
 ## Key Features
 
@@ -49,36 +30,70 @@ phase1/
 - **API Integration**: Multiple ways to interact with models
 - **Performance Analysis**: Benchmarking and optimization tools
 - **Interactive Examples**: Jupyter notebooks for hands-on learning
-
-## Dependencies
-
-Key requirements (see `requirements.txt` for full list):
-- Python 3.12+
-- PyTorch with CUDA support
-- Jupyter/IPython
-- Various LLM API clients
+- **PyTorch Optimization**: Guidance on using `torch.compile` and AMP for RTX 3070.
 
 ---
 
-For the initial environment setup, refer to [Phase 0](../phase0/).
+## 1. Local LLM Integration
 
-# Details of Phase 1 — Local LLM Experimentation & AI‑assisted Coding
+This project provides a comprehensive toolkit for running and interacting with local Large Language Models. The following tools and integrations are supported:
 
-The rest of this document **condenses the sprawling `~/.bash_history` from Phase 1** into a tidy,
+- **Ollama**: The primary method for local model hosting is through Ollama, which provides a simple and efficient way to serve and manage LLMs. The `python_code` directory contains several scripts for interacting with the Ollama API, including:
+  - `benchm_ollama_ChatOllama.py`: A benchmarking script that uses the `ChatOllama` class from `langchain_ollama` to measure performance.
+  - `benchm_ollama_local_api_chat.py`: A script that benchmarks the Ollama API using the `/api/chat` endpoint.
+  - `benchm_ollama_local_v1_chat_compl.py`: A script that benchmarks the Ollama API using the OpenAI-compatible `/v1/chat/completions` endpoint.
+  - `benchm_ollama_local_v1_compl.py`: A script that benchmarks the Ollama API using the OpenAI-compatible `/v1/completions` endpoint.
+  - `ollama_api_tags.py`: A script to list the available models from the Ollama API.
+- **Oobabooga**: The Text-Generation WebUI is also supported, with a benchmarking script (`benchm_oobabooga_v1_compl.py`) that interacts with its HTTP API.
+- **`llama.cpp`**: For running GGUF models directly, this project includes instructions for building `llama.cpp` with CUDA support.
+
+## 2. Model Experimentation
+
+The project is designed for experimenting with different models and hosting approaches. Key features include:
+
+- **Multiple Architectures**: The benchmarking scripts are designed to work with various model architectures, including Mistral-7B and others.
+- **Performance Benchmarking**: The `python_code` directory contains a suite of benchmarking scripts to measure latency and throughput of different hosting configurations.
+- **Flexible Hosting**: You can run models using Ollama, Oobabooga, or a custom `llama.cpp` build, allowing you to compare performance and features.
+
+## 3. Python Tools & Libraries
+
+The `python_code` directory contains a collection of Python scripts and utilities to support LLM development and experimentation:
+
+- **LLM API Wrappers**: The `helper_functions.py` script provides a unified interface for interacting with different LLM backends, making it easy to switch between Ollama and other services.
+- **Benchmarking Suite**: The `benchm_*` scripts provide a comprehensive toolkit for measuring the performance of local LLMs.
+- **PyTorch Utilities**: The `check_torch_threads.py` and `show_torch_nr_of_threads.py` scripts help you verify and configure your PyTorch environment for optimal performance.
+- **WSL Utilities**: The `windows_ip_in_wsl.py` script provides a convenient way to get the Windows host IP address from within WSL, which is useful for connecting to services running on the host.
+
+## 4. Notebooks
+
+- Interactive examples and tutorials
+- Google Colab integration with local clients
+- Performance analysis and visualization
+
+## 5. Shell and Batch Scripts
+
+- Scripts for testing Ollama, saving bash history, and managing models.
+- Windows batch scripts for running Ollama and converting Hugging Face models.
+
+## 6. Gemini CLI
+
+- The Google Gemini CLI is installed in WSL for AI-assisted coding.
+- A detailed setup guide is available in [Gemini_CLI_setup.md](Gemini_CLI_setup.md).
+
+---
+
+# Setup and Installation
+
+The rest of this document **condenses the sprawling `~/.bash_history` from Phase 1** into a tidy,
 commented reference *and* a narrated engineering journal.
 
-Relationship to Phase 0: 
-* Phase 0 handled GPU drivers, CUDA 12.x and a verified PyTorch wheel.
-* Phase 1 builds on top of that stack and moves into model hosting, benchmarking and IDE integration.
-
-
 > **Why bother?**
-> Re‑running the blocks below on a fresh Ubuntu (WSL 2 *or* bare metal) will recreate the
-> exact environment I used while exploring local Large Language Models (LLMs), Colab
-> tunnels, LangChain integrations and VS Code AI helpers — without crawling through
-> 1 400‑plus bash history lines.
+> Re-running the blocks below on a fresh Ubuntu (WSL 2 *or* bare metal) will recreate the
+> exact environment I used while exploring local Large Language Models (LLMs), Colab
+> tunnels, LangChain integrations and VS Code AI helpers — without crawling through
+> 1 400-plus bash history lines.
 
-## 0  Prerequisites (system level)
+## 0. Prerequisites (system level)
 
 ```bash
 sudo apt update && sudo apt install -y \
@@ -87,13 +102,14 @@ sudo apt update && sudo apt install -y \
 sudo locale-gen en_US.UTF-8 && sudo update-locale LANG=en_US.UTF-8
 ```
 
-Set a sane locale early; several Python wheels barf on missing UTF‑8.
+Set a sane locale early; several Python wheels barf on missing UTF-8.
 
 ---
 
-## 1  CUDA 12.5 toolkit inside WSL 2 (optional but recommended)
+## 1. CUDA 12.5 toolkit inside WSL 2 (optional but recommended)
 
-CUDA ≥12.5 drops the ancient 525 driver dependency and includes bug‑fixed `nvcc`.
+CUDA 
+12.5 drops the ancient 525 driver dependency and includes bug-fixed `nvcc`.
 
 ```bash
 sudo mkdir -p /etc/apt/keyrings
@@ -101,7 +117,7 @@ curl -fsSL https://developer.download.nvidia.com/compute/cuda/repos/wsl-ubuntu/x
   gpg --dearmor | sudo tee /etc/apt/keyrings/cuda-archive-keyring.gpg >/dev/null
 
 cat <<'LIST' | sudo tee /etc/apt/sources.list.d/cuda-wsl.list
-# CUDA 12.5 for WSL Ubuntu
+# CUDA 12.5 for WSL Ubuntu
 
 deb [signed-by=/etc/apt/keyrings/cuda-archive-keyring.gpg] \
   https://developer.download.nvidia.com/compute/cuda/repos/wsl-ubuntu/x86_64/ /
@@ -124,7 +140,7 @@ If an older repo polluted `apt`, clean with:
 
 ---
 
-## 2  Python 3.12 & virtual environments
+## 2. Python 3.12 & virtual environments
 
 ```bash
 sudo add-apt-repository -y ppa:deadsnakes/ppa
@@ -132,14 +148,14 @@ sudo apt update && sudo apt install -y python3.12 python3.12-venv python3.12-dev
 sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.12 12
 
 python3 --version        # 3.12.x
-python3.12 -m venv .venv # project‑local env
+python3.12 -m venv .venv # project-local env
 source .venv/bin/activate
 pip install --upgrade pip
 ```
 
 ---
 
-## 3  Stable CUDA wheel stack (PyTorch 2.5.1 + cu121)
+## 3. Stable CUDA wheel stack (PyTorch 2.5.1 + cu121)
 
 ```bash
 pip install torch==2.5.1+cu121 \
@@ -153,7 +169,7 @@ pip install torch==2.5.1+cu121 \
 
 > **Tip:** pin the exact wheel URL; `pip` loves to "help" by upgrading to mismatched builds.
 
-Extra speed‑ups:
+Extra speed-ups:
 
 ```bash
 pip install flash-attn --no-build-isolation
@@ -161,9 +177,9 @@ pip install flash-attn --no-build-isolation
 
 ---
 
-## 4  Local model servers
+## 4. Local model servers
 
-### 4.1 Ollama
+### 4.1 Ollama
 
 ```bash
 curl -fsSL https://ollama.com/install.sh | sh
@@ -178,11 +194,11 @@ pip install -U langchain-ollama
 python - <<'PY'
 from langchain_ollama import ChatOllama
 llm = ChatOllama(model="mistral")
-print(llm.invoke("Hello Phase 1"))
+print(llm.invoke("Hello Phase 1"))
 PY
 ```
 
-### 4.2 Text‑Generation‑WebUI (Oobabooga)
+### 4.2 Text-Generation-WebUI (Oobabooga)
 
 ```bash
 git clone https://github.com/oobabooga/text-generation-webui.git \
@@ -194,22 +210,23 @@ bash one_click_installer.sh --reinstall
 
 Benchmarks live in `phase1/python_code/benchm_*` and compare throughput.
 
-### 4.3 Docker images (headless)
+### 4.3 Docker images (headless)
 
 ```bash
-docker run -p 11434:11434 mistral/mistral:latest  # full‑fat container
+docker run -p 11434:11434 mistral/mistral:latest  # full-fat container
 ```
 
 Good for quick tests without polluting the host env.
 
 ---
 
-## 5  Building `llama.cpp` with CUDA backend (optional)
+## 5. Building `llama.cpp` with CUDA backend (optional)
 
 ```bash
 sudo apt install -y build-essential cmake git ninja-build pkg-config
 cd ~/projects && git clone https://github.com/ggml-org/llama.cpp.git
-cd llama.cpp && git pull      # ensure ≥ Feb‑2025 commit
+cd llama.cpp && git pull      # ensure 
+ Feb-2025 commit
 cmake -S . -B build -DGGML_CUDA=ON -DCMAKE_CUDA_ARCHITECTURES=86
 cmake --build build -j$(nproc)
 
@@ -221,7 +238,7 @@ Copy `libllama.so` into WebUI if you need faster GGUF loading.
 
 ---
 
-## 6  Jupyter & IPython kernels
+## 6. Jupyter & IPython kernels
 
 ```bash
 pip install notebook ipykernel nbdime
@@ -233,7 +250,7 @@ Optional notebook server hardening lives in `~/.jupyter/jupyter_notebook_config.
 
 ---
 
-## 7  VS Code & Dev Tools
+## 7. VS Code & Dev Tools
 
 ```bash
 # Essential extensions
@@ -249,11 +266,18 @@ pip install black "black[jupyter]" flake8 pre-commit pytest
 pre-commit install
 ```
 
-`Continue` talking to local Ollama on Windows often beats WSL 2 latency. Benchmark.
+`Continue` talking to local Ollama on Windows often beats WSL 2 latency. Benchmark.
 
 ---
 
-## 8  Git hygiene & large‑file ignores
+## 8. Gemini CLI
+
+The Google Gemini CLI was installed into WSL to provide AI-assisted coding and generation.
+For instructions on how this was done, refer to the [Gemini_CLI_setup.md](Gemini_CLI_setup.md) file.
+
+---
+
+## 9. Git hygiene & large-file ignores
 
 ```bash
 echo -e "models/\n*.gguf\n.venv/\nlogs/" >> .gitignore
@@ -264,7 +288,7 @@ Stash CUDA blobs (`*.so`, `*.out`) into `stage0/bin` or `phase1/bin` and keep th
 
 ---
 
-## 9  History & backup scripts
+## 10. History & backup scripts
 
 ```bash
 export HISTTIMEFORMAT="%F %T "
@@ -282,9 +306,9 @@ chmod +x ~/backup_bash_history.sh
 
 ---
 
-## 10  Troubleshooting checklist
+## 11. Troubleshooting checklist
 
-* `nvidia-smi` shows the GPU?  If not, update Windows host driver > 555.
+* `nvidia-smi` shows the GPU?  If not, update Windows host driver > 555.
 * `nvcc --version` matches PyTorch CUDA (cu121 vs cu128).
 * Mixed Torch/xformers builds?  `pip uninstall -y torch xformers` and reinstall pinned wheels.
 * Ollama service stuck?  `systemctl status ollama`, `sudo systemctl stop ollama` then `ollama serve`.
@@ -292,9 +316,9 @@ chmod +x ~/backup_bash_history.sh
 
 ---
 
-## 11  End of Phase 1
+## 12. End of Phase 1
 
-You now own a reproducible, GPU‑accelerated playground for LLM research:
-Ollama, Oobabooga, `llama.cpp`, Jupyter and VS Code are all one‐command
+You now own a reproducible, GPU-accelerated playground for LLM research:
+Ollama, Oobabooga, `llama.cpp`, Jupyter and VS Code are all one-command
 away.  Branch the repo, swap models, rewrite benchmarks — **without**
 scavenging bash history ever again.
