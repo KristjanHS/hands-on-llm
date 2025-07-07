@@ -21,7 +21,7 @@
     "black-formatter.args": ["--line-length", "120"],
     // flake8 linting config.
     // using full path because ${workspaceFolder} is not resolved by cornflakes correctly. tested with Cornflakes 0.11.0. as of 2023-10-20. reported to the author.
-    "cornflakes.linter.executablePath": "~/projects/hands-on-llm/.venv/bin/flake8",
+    "cornflakes.linter.executablePath": "/home/kristjans/projects/hands-on-llm/.venv/bin/flake8",
     "cornflakes.linter.run": "onSave",
     "python.analysis.diagnosticSeverityOverrides": {
         "reportMissingImports": "none" // optional: hides some Pylance noise

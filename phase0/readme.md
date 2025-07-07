@@ -11,7 +11,7 @@ This document distills **all meaningful commands** from my very first try‑ever
 ```
 stage0/
 ├── notebooks/               # GPU/Jupyter test notebooks
-├── batch_and_shell/         # Torch, path, rich, cwd tests
+├── batch_and_shell/         # Torch, path, rich, cwd scripts
 ├── cuda/                    # CUDA C++ source (device query etc.)
 ├── bin/                     # Compiled CUDA output (gitignored)
 ├── logs/                    # Setup logs and dependency files

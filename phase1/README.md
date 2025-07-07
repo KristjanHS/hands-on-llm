@@ -18,9 +18,7 @@ phase1/
 ├── jupyter_notebooks/        # Local Jupyter experiments
 ├── colab_notebooks/          # Colab -> local tunnel examples
 ├── batch_and_shell/          # *.sh, *.bat utilities
-├── cuda/                     # .cu kernels & tests (e.g. devicecount)
-├── bin/                      # Compiled CUDA or C helpers
-└── tests/                    # pytest & flake8
+└── tests/                    # pytest tests
 ```
 
 ## Key Components
