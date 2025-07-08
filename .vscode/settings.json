@@ -29,7 +29,7 @@
     "githubPullRequests.ignoredPullRequestBranches": [
         "main"
     ],
-    "geminicodeassist.inlineSuggestions.enableAuto": false,
+    "geminicodeassist.inlineSuggestions.enableAuto": true,
     "geminicodeassist.chat.defaultDiffLayout": "Side by side diff",
     "geminicodeassist.chat.defaultCodeBlockDisplay": "Expanded"
 }
