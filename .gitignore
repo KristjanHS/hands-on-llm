@@ -4,15 +4,24 @@ bin/
 
 # Virtualenv
 .venv/
-.cu121/
 venv/
+.cu121/
+.tox/
+.nox/
+.mypy_cache/
 
-# Python cache
+
+# Python cache and build files
+.pytest_cache/
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 .pytest_cache/
+build/
+_build/
+dist/
+*.egg-info/
 
 # Jupyter
 .ipynb_checkpoints/
@@ -43,6 +52,19 @@ cuda-keyring_*.deb
 # google cloud
 google-cloud-sdk/
 
+#####################
 # Phase 2
-/phase2/data/
-/faiss_index/
+#####################
+
+# Large data files, assets, or logs
+data/
+assets/
+*.csv
+# If they are large datasets
+*.json
+*.log
+faiss_index/
+
+# Third-party libraries you've vendored/included
+vendor/
+third_party/
