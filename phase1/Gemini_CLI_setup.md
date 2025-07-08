@@ -1,8 +1,50 @@
-# Gemini CLI — WSL 2 Setup Guide (Phase 1 Companion)
+# Gemini CLI chat — WSL 2 Setup Guide (Phase 1 Companion)
 
-This document distills the raw shell history from *phase 1* into a **clean, replay‑able reference** for installing and using Google’s **Gemini CLI** inside Ubuntu on WSL 2.  The structure mirrors the style of the existing `README.md` files for Phase 0 and Phase 1 so you can drop it straight into the repo.
+This document distills the raw shell history from *phase 1* into a **clean, replay‑able reference** for installing and using Google’s **Gemini CLI chat** inside Ubuntu on WSL 2.  The structure mirrors the style of the existing `README.md` files for Phase 0 and Phase 1 so you can drop it straight into the repo.
 
-> **Why Gemini CLI?**  It puts Gemini 2.5 Pro (and newer) models directly in your terminal, supports ReAct loops with your local tools, and integrates with VS Code & shell scripts — all without leaving WSL 2.
+> **Why Gemini CLI chat?**  
+* It puts Gemini 2.5 Pro (and newer) models directly in your terminal, supports ReAct loops with your local tools, and integrates with VS Code & shell scripts — all without leaving WSL 2. 
+* CLI offers a higher FREE daily quota (up to 1,000 requests) compared to Gemini Code Assist, while still able to run the changes across the project the AGENTIC way.
+
+**If you want to ensure the Agentic CLI always uses Gemini Pro and does not fall back to Gemini Flash:
+* Switch to "Direct API Mode" in Agentic CLI (after /auth): provide Gemini API Key to CLI through your project .env file.
+
+---
+
+## Important - Understand the difference: Gemini Code Assist (IDE) vs. Gemini CLI (Agentic Mode)
+
+Gemini CLI's Agentic Mode cannot replicate the safe, complex, multi-file refactoring of the IDE's Gemini Code Assist. They operate on fundamentally different principles.
+
+### The Analogy: The Resident Surgeon vs. The Remote-Controlled Robot
+
+*   **Gemini Code Assist (IDE) is the Resident Surgeon:** It lives inside the operating room (the IDE). It has a deep, semantic understanding of the patient's anatomy (your code's structure via AST). When it makes a change, it uses precise, specialized surgical tools (the IDE's safe refactoring engine).
+
+*   **Gemini CLI Agent is the Remote-Controlled Robot:** It operates from outside the room, looking in through a camera (the shell). It explores by running commands (`ls`, `cat`). When it makes a change, it uses powerful but general-purpose tools from its toolkit (`sed`, `awk`, file overwrites), which are riskier and lack surgical precision.
+
+### Key Differences at a Glance
+
+| Feature | Gemini Code Assist (IDE) | Gemini CLI (Agentic Mode) |
+| :--- | :--- | :--- |
+| **Project Context** | **Deep & Semantic** (understands code structure) | **Shallow & Exploratory** (runs shell commands like `ls`, `cat`) |
+| **Code Modification** | **Safe & Structured** (uses the IDE's refactoring engine) | **Text-Based & Risky** (uses tools like `sed` or file overwrites) |
+| **Primary Strength** | Complex, context-aware code generation and refactoring | Automation, scripting, and executing shell workflows |
+| **Best For** | "Rename this function and all its usages across 10 files." | "Find all files using the 'requests' library and list them." |
+
+### When to Use Which
+
+**Use Gemini Code Assist (IDE) for:**
+-   Safely refactoring code across your entire project.
+-   Generating complex functions or classes that are aware of existing code.
+-   Understanding and explaining large, intricate codebases.
+
+**Use the Gemini CLI Agent for:**
+-   Automating shell tasks (e.g., "Find all TODOs in `.py` files and save them to a list").
+-   Querying your project ("Which files import the `os` module?").
+-   Generating boilerplate, scripts, or configuration files.
+
+### The Bottom Line
+
+They are complementary tools, not interchangeable. The IDE is for **developing and understanding** code; the CLI agent is for **operating on and automating** your development environment.
 
 ---
 

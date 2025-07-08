@@ -42,3 +42,5 @@ cuda-keyring_*.deb
 
 # google cloud
 google-cloud-sdk/
+
+data/
