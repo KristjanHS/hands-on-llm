@@ -1,8 +1,13 @@
-# Gemini CLI — WSL 2 Setup Guide (Phase 1 Companion)
+# Gemini CLI chat — WSL 2 Setup Guide (Phase 1 Companion)
 
-This document distills the raw shell history from *phase 1* into a **clean, replay‑able reference** for installing and using Google’s **Gemini CLI** inside Ubuntu on WSL 2.  The structure mirrors the style of the existing `README.md` files for Phase 0 and Phase 1 so you can drop it straight into the repo.
+This document distills the raw shell history from *phase 1* into a **clean, replay‑able reference** for installing and using Google’s **Gemini CLI chat** inside Ubuntu on WSL 2.  The structure mirrors the style of the existing `README.md` files for Phase 0 and Phase 1 so you can drop it straight into the repo.
 
-> **Why Gemini CLI?**  It puts Gemini 2.5 Pro (and newer) models directly in your terminal, supports ReAct loops with your local tools, and integrates with VS Code & shell scripts — all without leaving WSL 2. CLI offers a higher FREE daily quota (up to 1,000 requests) compared to Gemini Code Assist, while still doing the changes across the project the agentic way.
+> **Why Gemini CLI chat?**  
+* It puts Gemini 2.5 Pro (and newer) models directly in your terminal, supports ReAct loops with your local tools, and integrates with VS Code & shell scripts — all without leaving WSL 2. 
+* CLI offers a higher FREE daily quota (up to 1,000 requests) compared to Gemini Code Assist, while still able to run the changes across the project the AGENTIC way.
+
+**If you want to ensure the Agentic CLI always uses Gemini Pro and does not fall back to Gemini Flash:
+* Switch to "Direct API Mode" in Agentic CLI (after /auth): provide Gemini API Key to CLI through your project .env file.
 
 ---
 
