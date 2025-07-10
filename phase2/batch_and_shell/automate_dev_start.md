@@ -1,105 +1,79 @@
-# Automating Project Startup with Virtual Environment Activation and VS Code
+# Automating Project Startup with Virtual Environment Activation & VS Code Workspace
 
-This guide describes how to automate the following steps in your WSL shell:
+This short guide shows how to jump straight into your **hands‑on‑llm** project from any WSL shell with a single command.  After following the steps, typing `llm` will:
 
-```bash
-cd projects/hands-on-llm/
-source .venv/bin/activate
-code .
-```
-
-So that the shell ends up in:
+1. **cd** into `~/projects/hands-on-llm`
+2. **Activate** the .venv Python virtual environment (if it exists)
+3. **Launch** VS Code, opening *hands‑on‑llm.code-workspace* in a fresh window
+4. Leave you inside the project directory with the venv active:
 
 ```bash
-((.venv) ) username@PCname:~/projects/hands-on-llm$
+(.venv) kristjan@pcname:~/projects/hands-on-llm$
 ```
 
 ---
 
-## Step 1: Create the Shell Script
+## 1  Write the helper function
 
-Save the following script as `start_llm.sh` in your home directory:
-
-```bash
-#!/bin/bash
-
-# Navigate to the project directory
-cd ~/projects/hands-on-llm || {
-  echo "Project directory not found."
-  return 1
-}
-
-# Activate the virtual environment
-if [ -f .venv/bin/activate ]; then
-  source .venv/bin/activate
-else
-  echo "Virtual environment not found."
-  return 1
-fi
-
-# Open VS Code in the current directory
-code .
-```
-
----
-
-## Step 2: Make the Script Executable
+Add the following function to the bottom of your `~/.bashrc` (or `~/.zshrc`):
 
 ```bash
-chmod +x ~/start_llm.sh
-```
+# ——— quick project launcher ———
+llm () {
+    local project=~/projects/hands-on-llm
+    local ws="$project/hands-on-llm.code-workspace"
 
----
+    cd "$project" || return 1                           # jump into the project
+    [ -f .venv/bin/activate ] && source .venv/bin/activate # activate venv if present
 
-## Step 3: Source the Script
-
-To ensure the environment persists in the current shell session, source the script:
-
-```bash
-source ~/start_llm.sh
-```
-
-### Optional: Add an Alias
-
-Add this to your `.bashrc` or `.zshrc`:
-
-```bash
-alias llm='source ~/start_llm.sh'
-```
-
-Reload your shell config:
-
-```bash
-source ~/.bashrc  # or source ~/.zshrc
-```
-
-Now, run `llm` anytime to initialize your project.
-
----
-
-## Why Source Instead of Execute?
-
-Running a script normally (`./start_llm.sh`) launches a subshell, so environment changes like `source .venv/bin/activate` won't persist.
-
-By **sourcing**, the commands run in the **current** shell, so the virtual environment remains active.
-
-See: [StackOverflow explanation](https://stackoverflow.com/questions/13122137/how-to-source-virtualenv-activate-in-a-bash-script)
-
----
-
-## Optional: Auto-Activate on `cd`
-
-To automatically activate the environment when entering the directory, add this to `.bashrc` or `.zshrc`:
-
-```bash
-function cd() {
-  builtin cd "$@" || return
-  if [ -f .venv/bin/activate ]; then
-    source .venv/bin/activate
-  fi
+    # open the workspace in a new VS Code window (backgrounded)
+    code "$ws" >/dev/null 2>&1 &
 }
 ```
 
-**Caution:** Overriding `cd` can have side effects. Only use if it fits your workflow.
+### Why this works
 
-Ref: [Ask Ubuntu suggestion](https://askubuntu.com/questions/791351/run-virtualenv-in-new-terminal-tab-automatically)
+* **Function vs script** Because the code runs *in the current shell*, the `cd` and `source` calls persist after the function returns.
+* **Background `&`** Lets you keep using the terminal instantly.
+
+---
+
+## 2  Reload your shell
+
+```bash
+source ~/.bashrc   # or source ~/.zshrc
+```
+
+Check the definition:
+
+```bash
+type llm   # should say "llm is a function" and print its body
+```
+
+---
+
+## 3  Use it!
+
+From any directory inside WSL:
+
+```bash
+llm        # → VS Code workspace opens, venv activated, cwd changed
+```
+
+If the virtual environment is missing you’ll see no error—the function simply skips activation.
+
+---
+
+## Troubleshooting
+
+| Symptom                          | Fix                                                                                 |
+| -------------------------------- | ----------------------------------------------------------------------------------- |
+| *Function not found*             | Did you reload the shell (`source ~/.bashrc`)?                                      |
+| *Still an old alias*             | Run `type llm` – if it says “alias”, `unalias llm`, reload, then verify again.      |
+| *Need venv outside VS Code too*  | The venv is activated **before** launching VS Code, so the parent shell retains it. |
+
+---
+
+### That’s it!
+
+You now have a one‑word command that sets up the project environment and opens your workspace every time.
