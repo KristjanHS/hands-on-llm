@@ -21,11 +21,9 @@ def main():
                 # Manually configure the vectorizer and options
                 vectorizer_config=wvc.config.Configure.Vectorizer.text2vec_huggingface(
                     model="nomic-ai/nomic-embed-text-v1.5",
-                    options={
-                        "wait_for_model": True,
-                        "use_gpu": False,  # Set to True if you have a GPU
-                        "use_cache": True,
-                    },
+                    wait_for_model=True,
+                    use_gpu=False,  # Set to True if you have a GPU
+                    use_cache=True,
                 ),
             )
             print(f"Collection '{collection_name}' created.")

@@ -9,7 +9,6 @@ services:
     environment:
       QUERY_DEFAULTS_LIMIT: 25
       AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: 'true'
-      DEFAULT_VECTORIZER_MODULE: 'none'
-      ENABLE_MODULES: 'text2vec-nomic'
+      DEFAULT_VECTORIZER_MODULE: 'text2vec-huggingface'
+      ENABLE_MODULES: 'text2vec-huggingface'
       CLUSTER_HOSTNAME: 'node1'
-      NOMIC_API_KEY: ${NOMIC_API_KEY}
