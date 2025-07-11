@@ -155,7 +155,7 @@ def main(args):
         # Perform a similarity search
         # query = "What did the fox jump over?"
         query = "How many boxing wizards jump quickly?"
-        response = docs.query.near_text(query=query, limit=10)
+        response = docs.query.near_text(query=query, limit=2)
 
         # Print the results
         print("\nQuery: ", query)
