@@ -1,8 +1,17 @@
 #!/usr/bin/env python3
 """PDF → Weaviate ingestion with run statistics.
 
-After processing it prints e.g.
+Usage
+-----
+$ python ingest_pdf.py --data-dir ./data
 
+The script will:
+1. Connect to a **local** Weaviate instance.
+2. Ensure the collection defined in config.COLLECTION_NAME exists.
+3. Walk through all *.pdf files in --data-dir.
+4. Split each PDF into chunks and *upsert* them with deterministic UUIDs so re-runs never create duplicates.
+
+After processing it prints e.g.
 ✓ 3 PDFs processed
 ✓ 142 chunks (90 inserts, 52 updates)
 Elapsed: 4.3 s
@@ -18,6 +27,7 @@ from typing import List
 import weaviate
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from weaviate.util import generate_uuid5
+from weaviate.exceptions import UnexpectedStatusCodeError
 
 from config import COLLECTION_NAME, CHUNK_SIZE, CHUNK_OVERLAP
 
@@ -72,15 +82,30 @@ def process_pdf(path: str, docs, stats: dict[str, int]):
     text = extract_text(path)
     chunks = splitter.split_text(text)
     stats["chunks"] += len(chunks)
+    # Use a UUID that is independent of *content* so we can detect edits.
     for i, chunk in enumerate(chunks):
-        uuid = generate_uuid5(f"{os.path.basename(path)}:{i}:{chunk}")
+        uuid = generate_uuid5(f"{os.path.basename(path)}:{i}")
         props = {"content": chunk, "page": i, "source_file": os.path.basename(path)}
+
         try:
-            docs.data.replace(uuid=uuid, properties=props)
-            stats["updates"] += 1
-        except Exception:
+            # First try to insert – fast path for new chunks
             docs.data.insert(uuid=uuid, properties=props)
             stats["inserts"] += 1
+        except UnexpectedStatusCodeError as e:
+            # 422 "id already exists" → object present; decide if update needed
+            if "already exists" not in str(e):  # different error, re-raise
+                raise
+
+            try:
+                existing = docs.data.get(uuid=uuid)
+            except Exception:
+                existing = None
+
+            if existing and existing.properties.get("content", "") != chunk:
+                docs.data.replace(uuid=uuid, properties=props)
+                stats["updates"] += 1
+            else:
+                stats["skipped"] += 1
 
 
 def ingest(directory: str):
@@ -89,7 +114,7 @@ def ingest(directory: str):
         print(f"No PDF files in '{directory}'.")
         return
 
-    stats = {"pdfs": len(pdfs), "chunks": 0, "inserts": 0, "updates": 0}
+    stats = {"pdfs": len(pdfs), "chunks": 0, "inserts": 0, "updates": 0, "skipped": 0}
     start = time.time()
 
     client = connect()
@@ -105,7 +130,10 @@ def ingest(directory: str):
     # ---------- summary ---------------------------------------------------------
     print("\n── Summary ─────────────────────────────")
     print(f"✓ {stats['pdfs']} PDF(s) processed")
-    print(f"✓ {stats['chunks']} chunks  (" f"{stats['inserts']} inserts, {stats['updates']} updates)")
+    print(
+        f"✓ {stats['chunks']} chunks  ("
+        f"{stats['inserts']} inserts, {stats['updates']} updates, {stats['skipped']} skipped)"
+    )
     print(f"Elapsed: {elapsed:.1f} s")
 
 
