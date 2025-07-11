@@ -4,6 +4,7 @@ import argparse
 import glob
 import os
 from typing import List
+from weaviate.util import generate_uuid5  # deterministic UUIDs for upsert
 
 # No explicit authentication needed for default local instance of Weaviate
 
@@ -43,6 +44,10 @@ except ImportError:
     except ImportError:
         PdfReader = None
 
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+
+splitter = RecursiveCharacterTextSplitter(chunk_size=800, chunk_overlap=100)
+
 
 # -----------------------------------------------------------------------------
 # Helper utilities
@@ -75,14 +80,8 @@ def load_documents(source: str = "string", data_dir: str = "data/") -> List[str]
             print(f"No PDF files found in '{data_dir}'. Falling back to string list.")
             source = "string"
         else:
-            docs: List[str] = []
-            for p in pdf_paths:
-                try:
-                    print(f"Parsing PDF -> {p}")
-                    docs.append(_extract_text_from_pdf(p))
-                except Exception as exc:
-                    print(f"⚠️  Skipping '{p}': {exc}")
-            return docs
+            # Just return the file paths; actual parsing happens later during ingestion
+            return pdf_paths
 
     # Default: return sample strings
     return [
@@ -121,21 +120,41 @@ def main(args):
         documents = load_documents(source=args.source, data_dir=args.data_dir)
         print(f"Loaded {len(documents)} document(s) from '{args.source}'.")
 
-        # Ingest the data into Weaviate
-        with docs.batch.dynamic() as batch:
-            for i, d in enumerate(documents):
-                print(f"importing document: {i+1}")
-                properties = {
-                    "content": d,
+        # ------------------------------------------------------------------
+        # Upsert each chunk with a deterministic UUID (avoids duplicates)
+        # ------------------------------------------------------------------
+        for item in documents:
+            # When --source=pdf we receive a file path, otherwise we receive raw text
+            if args.source == "pdf":
+                raw_text = _extract_text_from_pdf(item)
+                source_file = os.path.basename(item)
+            else:
+                raw_text = item
+                source_file = "string_input"
+
+            chunks = splitter.split_text(raw_text)
+
+            for i, chunk in enumerate(chunks):
+                # Build a stable identifier: file (or "string_input"), page number, and chunk hash
+                obj_uuid = generate_uuid5(f"{source_file}:{i}:{chunk}")
+
+                props = {
+                    "content": chunk,
+                    "page": i,
+                    "source_file": source_file,
                 }
-                batch.add_object(properties=properties)
+
+                # Try to replace (update) first; if the object doesn't exist, insert it.
+                try:
+                    docs.data.replace(uuid=obj_uuid, properties=props)
+                except Exception:
+                    docs.data.insert(uuid=obj_uuid, properties=props)
 
         print("Data ingested.")
 
         # Perform a similarity search
         # query = "What did the fox jump over?"
         query = "How many boxing wizards jump quickly?"
-
         response = docs.query.near_text(query=query, limit=10)
 
         # Print the results
