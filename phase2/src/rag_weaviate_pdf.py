@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import weaviate
-import weaviate.classes as wvc
+
+# No explicit authentication needed for default local instances
 
 
 # --- Main execution ---
@@ -16,16 +17,9 @@ def main():
 
         # Create the collection if it doesn't exist
         if not client.collections.exists(collection_name):
-            client.collections.create(
-                name=collection_name,
-                # Manually configure the vectorizer and options
-                vectorizer_config=wvc.config.Configure.Vectorizer.text2vec_huggingface(
-                    model="nomic-ai/nomic-embed-text-v1.5",
-                    wait_for_model=True,
-                    use_gpu=False,  # Set to True if you have a GPU
-                    use_cache=True,
-                ),
-            )
+            client.collections.create(name=collection_name)
+            # The collection will automatically use the default vectorizer
+            # (text2vec-transformers) backed by the local GPU inference service.
             print(f"Collection '{collection_name}' created.")
 
         # Get the collection
@@ -51,7 +45,9 @@ def main():
         print("Data ingested.")
 
         # Perform a similarity search
-        query = "What did the fox jump over?"
+        # query = "What did the fox jump over?"
+        query = "How many boxing wizards jump quickly?"
+
         response = docs.query.near_text(query=query, limit=2)
 
         # Print the results
