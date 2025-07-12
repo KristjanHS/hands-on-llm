@@ -129,7 +129,7 @@ def build_prompt(question: str, context_chunks: list[str]) -> str:
 
 def answer(
     question: str,
-    k: int = 5,
+    k: int = 3,
     *,
     debug: bool = False,
     metadata_filter: Optional[Dict[str, Any]] = None,
@@ -139,7 +139,7 @@ def answer(
     global _ollama_context
 
     # ---------- 1) Retrieve -----------------------------------------------------
-    initial_k = max(k * 2, 10)  # ask vector DB for more than we eventually keep
+    initial_k = max(k * 20, 100)  # ask vector DB for more than we eventually keep
     candidates = get_top_k(question, k=initial_k, debug=debug, metadata_filter=metadata_filter)
     if not candidates:
         return "I found no relevant context to answer that question."
@@ -228,7 +228,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Interactive RAG console with optional metadata filtering.")
     parser.add_argument("--source", help="Filter chunks by source field (e.g. 'pdf')")
     parser.add_argument("--language", help="Filter chunks by detected language code (e.g. 'en', 'et')")
-    parser.add_argument("--k", type=int, default=5, help="Number of top chunks to keep after re-ranking")
+    parser.add_argument("--k", type=int, default=3, help="Number of top chunks to keep after re-ranking")
     args = parser.parse_args()
 
     # Build metadata filter dict (AND-combination of provided fields)
