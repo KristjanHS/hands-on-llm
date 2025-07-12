@@ -44,6 +44,7 @@ langchain-core
 langchain-ollama
 ollama
 openai
+sentence-transformers
 
 # --- Environment & Configuration ---
 python-dotenv
