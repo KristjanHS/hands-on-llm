@@ -4,12 +4,11 @@ from typing import List, Optional, Dict, Any
 
 import weaviate
 
-from config import COLLECTION_NAME
+from config import COLLECTION_NAME, DEFAULT_HYBRID_ALPHA
 
 # ---------------------------------------------------------------------------
 # Retriever helpers
 # ---------------------------------------------------------------------------
-DEFAULT_HYBRID_ALPHA = 0.5  # 0 → pure BM25, 1 → pure vector
 
 
 def _apply_metadata_filter(query: Any, metadata_filter: Optional[Dict[str, Any]]):
@@ -29,7 +28,7 @@ def get_top_k(
     k: int = 5,
     *,
     metadata_filter: Optional[Dict[str, Any]] = None,
-    alpha: float = DEFAULT_HYBRID_ALPHA,
+    alpha: float = DEFAULT_HYBRID_ALPHA,  # 0 → pure BM25 search, 1 → pure vector search
     debug: bool = False,
 ) -> List[str]:
     """Return the *content* strings of the **k** chunks most relevant to *question*.
