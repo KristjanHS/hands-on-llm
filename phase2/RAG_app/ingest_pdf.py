@@ -22,6 +22,7 @@ import argparse
 import glob
 import os
 import time
+from datetime import datetime
 from typing import List
 
 import weaviate
@@ -30,6 +31,12 @@ from weaviate.util import generate_uuid5
 from weaviate.exceptions import UnexpectedStatusCodeError
 
 from config import COLLECTION_NAME, CHUNK_SIZE, CHUNK_OVERLAP
+
+# Lightweight language detection
+try:
+    from langdetect import detect
+except ImportError:
+    detect = None  # type: ignore
 
 # ---------- optional PDF back-ends --------------------------------------------------
 try:
@@ -85,7 +92,27 @@ def process_pdf(path: str, docs, stats: dict[str, int]):
     # Use a UUID that is independent of *content* so we can detect edits.
     for i, chunk in enumerate(chunks):
         uuid = generate_uuid5(f"{os.path.basename(path)}:{i}")
-        props = {"content": chunk, "page": i, "source_file": os.path.basename(path)}
+        # Basic metadata enrichment
+        created_ts = os.path.getmtime(path)
+        created_iso = datetime.fromtimestamp(created_ts).isoformat()
+
+        if detect is not None:
+            try:
+                language = detect(chunk[:400])  # use first few hundred chars for speed
+            except Exception:
+                language = "unknown"
+        else:
+            language = "unknown"
+
+        props = {
+            "content": chunk,
+            "page": i,
+            "source_file": os.path.basename(path),
+            "source": "pdf",
+            "section": "body",
+            "created_at": created_iso,
+            "language": language,
+        }
 
         try:
             # First try to insert – fast path for new chunks

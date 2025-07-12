@@ -10,7 +10,7 @@ import json
 
 from config import OLLAMA_MODEL, OLLAMA_URL
 from retriever import get_top_k
-from typing import List, Tuple
+from typing import List, Tuple, Optional, Dict, Any
 from dataclasses import dataclass
 
 
@@ -102,9 +102,6 @@ def _score_chunks(question: str, chunks: List[str], debug: bool = False) -> List
     try:
         pairs: List[Tuple[str, str]] = [(question, c) for c in chunks]
         scores = encoder.predict(pairs)  # logits, pos > relevant
-        import torch
-
-        probs = torch.sigmoid(torch.tensor(scores)).tolist()  # converts logits → probabilities
     except Exception:
         # If inference fails we fall back to neutral scores as well.
         return [ScoredChunk(text=c, score=0.0) for c in chunks]
@@ -130,14 +127,20 @@ def build_prompt(question: str, context_chunks: list[str]) -> str:
     return prompt
 
 
-def answer(question: str, k: int = 5, *, debug: bool = False) -> str:
+def answer(
+    question: str,
+    k: int = 5,
+    *,
+    debug: bool = False,
+    metadata_filter: Optional[Dict[str, Any]] = None,
+) -> str:
     """Return an answer from the LLM using RAG with optional debug output."""
 
     global _ollama_context
 
     # ---------- 1) Retrieve -----------------------------------------------------
     initial_k = max(k * 2, 10)  # ask vector DB for more than we eventually keep
-    candidates = get_top_k(question, k=initial_k)
+    candidates = get_top_k(question, k=initial_k, debug=debug, metadata_filter=metadata_filter)
     if not candidates:
         return "I found no relevant context to answer that question."
 
@@ -218,6 +221,28 @@ def answer(question: str, k: int = 5, *, debug: bool = False) -> str:
 
 
 if __name__ == "__main__":
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Interactive RAG console with optional metadata filtering.")
+    parser.add_argument("--source", help="Filter chunks by source field (e.g. 'pdf')")
+    parser.add_argument("--language", help="Filter chunks by detected language code (e.g. 'en', 'et')")
+    parser.add_argument("--k", type=int, default=3, help="Number of top chunks to keep after re-ranking")
+    args = parser.parse_args()
+
+    # Build metadata filter dict (AND-combination of provided fields)
+    meta_filter: Optional[Dict[str, Any]] = None
+    if args.source or args.language:
+        clauses = []
+        if args.source:
+            clauses.append({"path": ["source"], "operator": "Equal", "valueText": args.source})
+        if args.language:
+            clauses.append({"path": ["language"], "operator": "Equal", "valueText": args.language})
+
+        if len(clauses) == 1:
+            meta_filter = clauses[0]
+        else:
+            meta_filter = {"operator": "And", "operands": clauses}
+
     print("RAG console – type a question, Ctrl-D/Ctrl-C to quit")
     try:
         for line in sys.stdin:
@@ -225,13 +250,11 @@ if __name__ == "__main__":
             if not q:
                 continue
 
-            # Stream the answer directly: print the arrow once, then call answer()
             sys.stdout.write("→ ")
             sys.stdout.flush()
 
-            answer(q, k=3, debug=True)
+            answer(q, k=args.k, debug=True, metadata_filter=meta_filter)
 
-            # Ensure we end the line cleanly after streaming completes.
             print("\n")
     except (EOFError, KeyboardInterrupt):
         pass
