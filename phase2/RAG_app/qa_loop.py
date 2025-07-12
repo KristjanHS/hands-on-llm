@@ -159,7 +159,9 @@ def answer(
     # ---------- 3) Prepare the prompt and payload -------------------------------------------------
     prompt_text = build_prompt(question, context_chunks)
 
-    model_name = _detect_ollama_model() or OLLAMA_MODEL
+    model_name = OLLAMA_MODEL
+    # alternative: use the first available model from the server
+    # model_name = _detect_ollama_model() or OLLAMA_MODEL
     base_url = _get_ollama_base_url()
     # Use the native Ollama generate endpoint which streams newline-delimited JSON
     url = f"{base_url.rstrip('/')}/api/generate"
@@ -226,7 +228,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Interactive RAG console with optional metadata filtering.")
     parser.add_argument("--source", help="Filter chunks by source field (e.g. 'pdf')")
     parser.add_argument("--language", help="Filter chunks by detected language code (e.g. 'en', 'et')")
-    parser.add_argument("--k", type=int, default=3, help="Number of top chunks to keep after re-ranking")
+    parser.add_argument("--k", type=int, default=5, help="Number of top chunks to keep after re-ranking")
     args = parser.parse_args()
 
     # Build metadata filter dict (AND-combination of provided fields)
