@@ -44,13 +44,8 @@ try:
 except ImportError:
     partition_pdf = None
 
-try:
-    from pypdf import PdfReader  # type: ignore
-except ImportError:
-    try:
-        from PyPDF2 import PdfReader  # type: ignore
-    except ImportError:
-        PdfReader = None
+# Remove PyPDF fallback – rely solely on `unstructured`.
+PdfReader = None
 
 
 splitter = RecursiveCharacterTextSplitter(chunk_size=CHUNK_SIZE, chunk_overlap=CHUNK_OVERLAP)
@@ -59,13 +54,15 @@ splitter = RecursiveCharacterTextSplitter(chunk_size=CHUNK_SIZE, chunk_overlap=C
 
 
 def extract_text(path: str) -> str:
-    if partition_pdf is not None:
+    if partition_pdf is None:
+        raise ImportError("Install 'unstructured[pdf]' to enable PDF parsing.")
+
+    try:
         els = partition_pdf(filename=path)
         return "\n".join([e.text for e in els if getattr(e, "text", None)])
-    if PdfReader is not None:
-        reader = PdfReader(path)
-        return "\n".join([page.extract_text() or "" for page in reader.pages])
-    raise ImportError("Install 'unstructured[pdf]' or 'pypdf' to enable PDF parsing.")
+    except Exception as err:
+        print(f"[Error] Failed to parse {os.path.basename(path)} with unstructured: {err}")
+        return ""
 
 
 def list_pdfs(directory: str) -> List[str]:
