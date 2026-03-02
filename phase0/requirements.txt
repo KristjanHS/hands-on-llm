@@ -29,3 +29,4 @@ pytest
 pre_commit
 flake8
 mypy
+nbconvert>=7.17.0 # not directly required, pinned by Snyk to avoid a vulnerability
