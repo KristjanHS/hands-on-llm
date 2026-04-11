@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-from langchain_ollama import ChatOllama
-from langchain_core.messages import HumanMessage
-
 """
 Helper functions for LLM and benchmarking scripts.
 """
+
+from langchain_ollama import ChatOllama
+from langchain_core.messages import HumanMessage
 
 
 def get_llm_response(
