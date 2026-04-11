@@ -1,3 +1,7 @@
+# DEPRECATED: Dependencies now managed in root pyproject.toml.
+# Install with: uv sync --extra phase2 --extra dev
+# This file kept as documentation only.
+
 # FAISS db and langchain for creating and using the embeddings
 faiss-cpu
 nomic

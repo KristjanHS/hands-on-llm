@@ -8,6 +8,7 @@ repos:
       - id: check-yaml
       - id: check-added-large-files
         args: ['--maxkb=500']  # defense-in-depth against accidental binary commits
+        exclude: '^uv\.lock$'  # lock files are expected to be large
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.11.6
     hooks:

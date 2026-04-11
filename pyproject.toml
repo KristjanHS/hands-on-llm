@@ -15,6 +15,76 @@ dependencies = [
     "rich"
 ]
 
+# Phase extras are cumulative — phase2 includes everything from phase1 and phase0.
+# Install with: uv sync --extra phase2 --extra dev
+[project.optional-dependencies]
+phase0 = [
+    "notebook",
+    "jupyterlab",
+    "ipython",
+    "Pillow",
+    "matplotlib-inline",
+    "traitlets",
+    "packaging",
+]
+phase1 = [
+    # phase0 deps
+    "notebook",
+    "jupyterlab",
+    "ipython",
+    "ipywidgets",
+    "Pillow",
+    "matplotlib-inline",
+    "packaging",
+    # phase1-specific
+    "matplotlib",
+    "pandas",
+    "scikit-learn",
+    "scipy",
+    "langchain-core",
+    "langchain-ollama",
+    "ollama",
+    "openai",
+    "python-dotenv",
+]
+phase2 = [
+    # phase1 deps (includes phase0)
+    "notebook",
+    "jupyterlab",
+    "ipython",
+    "ipywidgets",
+    "Pillow",
+    "matplotlib-inline",
+    "packaging",
+    "matplotlib",
+    "pandas",
+    "scikit-learn",
+    "scipy",
+    "langchain-core",
+    "langchain-ollama",
+    "ollama",
+    "openai",
+    "python-dotenv",
+    # phase2-specific: RAG tooling
+    "faiss-cpu",
+    "nomic",
+    "langchain",
+    "langchain-community",
+    "langchain-nomic",
+    "weaviate-client",
+    "pypdf",
+    "pyyaml",
+    "tqdm",
+    "sentence-transformers",
+    "langdetect",
+]
+dev = [
+    "ruff",
+    "pytest",
+    "pre-commit",
+    "mypy",
+]
+
 # Ruff replaces flake8 + black + isort (single tool, 10-100x faster)
 [tool.ruff]
 line-length = 120
@@ -35,3 +105,11 @@ quote-style = "double"
 [tool.pytest.ini_options]
 addopts = "-ra -q"
 testpaths = ["phase0/tests", "phase1/tests", "phase2/tests"]
+
+# torch requires the CUDA-specific PyPI index — uv resolves this automatically
+[tool.uv.sources]
+torch = { index = "pytorch-cu128" }
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"

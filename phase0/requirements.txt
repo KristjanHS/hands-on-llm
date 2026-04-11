@@ -1,3 +1,7 @@
+# DEPRECATED: Dependencies now managed in root pyproject.toml.
+# Install with: uv sync --extra phase0 --extra dev
+# This file kept as documentation only.
+
 # --- Core ML / GPU stack ---
 # torch==2.5.1+cu121 # (ensure this matches the version in the Makefile)
 # this will not work as part of requirements.txt, since they are not available on PyPI
