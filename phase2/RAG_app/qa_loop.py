@@ -1,9 +1,14 @@
 #!/usr/bin/env python3
 """Interactive console for Retrieval-Augmented Generation."""
 from __future__ import annotations
-from windows_ip_in_wsl import get_windows_host_ip
 
+import os
 import sys
+
+# The canonical windows_ip_in_wsl module lives in phase2/python_PoC_scripts/.
+# Add it to sys.path so the bare import works without __init__.py packaging.
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "python_PoC_scripts"))
+from windows_ip_in_wsl import get_windows_host_ip  # type: ignore[import-not-found]  # resolved via sys.path above
 import httpx  # For catching connection errors
 import requests
 import json

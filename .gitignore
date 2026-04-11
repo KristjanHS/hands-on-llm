@@ -28,6 +28,7 @@ dist/
 
 # Environment variables
 .env
+!.env.example
 
 # Logs
 logs/
@@ -71,3 +72,14 @@ third_party/
 
 # Docker secrets
 secrets/
+
+# Binary artifacts & model weights
+*.pdf
+*.pkl
+*.bin
+*.h5
+*.safetensors
+*.onnx
+
+# Compiled binaries
+phase0/bin/
