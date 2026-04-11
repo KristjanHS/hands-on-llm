@@ -19,3 +19,7 @@ dependencies = [
 line-length = 120
 skip-string-normalization = false
 target-version = ["py312"]
+
+[tool.pytest.ini_options]
+addopts = "-ra -q"
+testpaths = ["phase0/tests", "phase1/tests", "phase2/tests"]
