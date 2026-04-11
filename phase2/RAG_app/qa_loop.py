@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Interactive console for Retrieval-Augmented Generation."""
 from __future__ import annotations
-from windows_ip_in_wsl import get_windows_host_ip
 
 import sys
+
+from phase1.python_code.windows_ip_in_wsl import get_windows_host_ip
 import httpx  # For catching connection errors
 import requests
 import json
