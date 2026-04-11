@@ -1,6 +1,7 @@
 # Modernization Plan: hands-on-llm
 
 **Created**: 2026-04-11
+**Updated**: 2026-04-11 (Kaizen review — Gemba Walk + Muda analysis)
 **Status**: Draft
 
 ---
@@ -43,6 +44,8 @@
 
 ### Task 1.3: Harden .gitignore Against Accidental Large-File Commits
 
+> **Kaizen note**: Execute alongside Task 1.2 and Task 1.7 — all modify `.gitignore` in the same edit session.
+
 **Why**: Defense-in-depth — even if `data/` pattern is removed from `.gitignore`, individual file patterns catch PDFs and model weights.
 
 **Steps**:
@@ -76,29 +79,55 @@
 
 **Why**: 3 tracked Python copies exist. Keep one canonical copy.
 
+> **Kaizen correction**: The `phase2/python_PoC_scripts/` copy is NOT a PoC variant — it is the most mature version with security hardening (`# nosec B603 B607`), `Optional[str]` typing, and `console.print()` output. Evaluate keeping this as canonical instead.
+
 **Steps**:
-1. Keep `phase1/python_code/windows_ip_in_wsl.py` as canonical
-2. `git rm phase2/RAG_app/windows_ip_in_wsl.py` (identical to phase1)
-3. `git rm phase2/python_PoC_scripts/windows_ip_in_wsl.py` (PoC variant)
-4. Check for imports in `phase2/RAG_app/` files: `config.py`, `qa_loop.py`, `retriever.py`, `ingest_pdf.py`
+1. Compare the 3 copies and keep the most mature as canonical:
+   - `phase1/python_code/windows_ip_in_wsl.py` — 64 lines, basic version
+   - `phase2/RAG_app/windows_ip_in_wsl.py` — identical to phase1
+   - `phase2/python_PoC_scripts/windows_ip_in_wsl.py` — 68 lines, adds `Optional` typing, `nosec` annotations, `console.print()`
+2. `git rm` the two non-canonical copies
+3. Fix import in `phase2/RAG_app/qa_loop.py` (line 4: `from windows_ip_in_wsl import get_windows_host_ip`) — this is the **only** file that imports it (not config.py, retriever.py, or ingest_pdf.py)
 
 **Files to delete**: 2 copies
-**Files to keep**: `phase1/python_code/windows_ip_in_wsl.py`, `phase1/batch_and_shell/windows_ip_in_wsl.sh`
+**Files to keep**: Best copy (see step 1), `phase1/batch_and_shell/windows_ip_in_wsl.sh`
 
 ### Task 1.6: Clean Commented-Out Code in helper_functions.py
 
-**Why**: `phase1/python_code/helper_functions.py` is 177 lines, ~120 are commented-out dead code. Active code is only `get_llm_response` at lines 140-176.
+**Why**: `phase1/python_code/helper_functions.py` is 176 lines with ~58 lines of commented-out dead code (old OpenAI API versions, print_llm_response, old Ollama variants). Active code is `get_llm_response` at lines 140-176 plus imports and docstring.
+
+> **Kaizen correction**: Original claim of "177 lines, ~120 dead" was inaccurate. Actual: 176 lines, ~58 commented. Read the file before deleting — preserve all uncommented code.
 
 **Steps**:
-1. Keep module docstring, active imports (lines 2-3), and `get_llm_response` function (lines 140-176)
-2. Remove everything between lines 8-138
-3. Result: ~45 lines
+1. Read the file to identify all active (uncommented) code
+2. Keep module docstring, active imports, and `get_llm_response` function (lines 140-176)
+3. Remove commented-out function blocks between imports and `get_llm_response`
+4. Result: ~120 lines of active code
 
 **Files to modify**: `phase1/python_code/helper_functions.py`
 
+### Task 1.7: Remove Tracked Binary From Git
+
+> **Added by Kaizen review** — missed in original plan.
+
+**Why**: `phase0/bin/test_WSL_Cuda_devicecount` is a 980KB compiled binary tracked in git. The `phase0/Makefile` (line 35) can recompile it on demand, so tracking it is unnecessary bloat.
+
+**Steps**:
+1. `git rm phase0/bin/test_WSL_Cuda_devicecount`
+2. Add to `.gitignore`:
+   ```
+   # Compiled binaries
+   phase0/bin/
+   ```
+
+**Files to delete**: `phase0/bin/test_WSL_Cuda_devicecount`
+**Files to modify**: `.gitignore`
+
 ---
 
-## Phase 2: Unify Configuration (Sequential — 2.1 first, then 2.2/2.3 parallel, then 2.4)
+## Phase 2: Unify Configuration (2.1/2.2/2.3 parallel, then 2.4)
+
+> **Kaizen correction**: Original claimed 2.1 must precede 2.2/2.3, but ruff works on Python >=3.8 and dependency consolidation is independent of Python version pinning. Only 2.4 (CI rewrite) depends on 2.2 and 2.3 completing first.
 
 ### Task 2.1: Standardize Python 3.12 and Remove Legacy setup.cfg
 
@@ -184,7 +213,7 @@
 
 ### Task 2.4: Rewrite CI Workflow
 
-**Why**: Current CI only runs `black .`. After ruff migration, CI should use ruff + uv + pytest.
+**Why**: Current CI installs both black and flake8 but only actively runs `black .` (flake8 check is commented out, tests are commented out). After ruff migration, CI should use ruff + uv + pytest.
 
 **Steps**:
 1. Rewrite `.github/workflows/python-lint-test.yml`:
@@ -228,8 +257,10 @@
 
 ### Task 3.1: Expand Pre-Commit Hooks
 
+> **Kaizen note**: Merge this with Task 2.2 when executing — both modify `.pre-commit-config.yaml`. The ruff hooks below are identical to those in 2.2; the value-add here is the `pre-commit-hooks` repo (trailing-whitespace, large-file check, etc.).
+
 **Steps**:
-1. Add to `.pre-commit-config.yaml`:
+1. Add to `.pre-commit-config.yaml` (alongside the ruff hooks from Task 2.2):
    ```yaml
    repos:
      - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -240,15 +271,9 @@
          - id: check-yaml
          - id: check-added-large-files
            args: ['--maxkb=500']
-     - repo: https://github.com/astral-sh/ruff-pre-commit
-       rev: v0.11.6
-       hooks:
-         - id: ruff
-           args: [--fix]
-         - id: ruff-format
    ```
 
-**Files to modify**: `.pre-commit-config.yaml`
+**Files to modify**: `.pre-commit-config.yaml` (same edit session as Task 2.2)
 
 ### Task 3.2: Add __init__.py to Python Directories
 
@@ -280,11 +305,7 @@
 
 **Files to create**: `phase2/tests/test_config.py`
 
-### Task 3.4: Add pytest Config to pyproject.toml
-
-**Why**: pytest config currently in `phase0/setup.cfg` which will be deleted in Task 2.1.
-
-**Steps**: Covered in Task 2.1 — add `[tool.pytest.ini_options]` to `pyproject.toml`.
+### ~~Task 3.4~~ (Removed — covered by Task 2.1)
 
 ---
 
@@ -302,11 +323,13 @@ Change `PYTHON_EXECUTABLE ?= python3.11` → `python3` on line 5.
 
 **Files to modify**: `phase0/Makefile`
 
-### Task 4.3: Add `from __future__ import annotations` to All ~28 Own-Code .py Files
+### Task 4.3: Add `from __future__ import annotations` to All ~35 Own-Code .py Files
+
+> **Kaizen note**: Marginal value on Python 3.12+ where `str | None` syntax works natively. Consider dropping this task entirely — it's busywork with no functional impact. If kept, scope is 35 files (not ~28).
 
 **Why**: Consistent forward-compatible type hint syntax across Python 3.12/3.13.
 
-**Scope**: All `.py` files in phase0/phase1/phase2 except `AI-Python-for-Beginners_local_LLM/` course materials.
+**Scope**: All `.py` files in phase0/phase1/phase2 except `AI-Python-for-Beginners_local_LLM/` course materials (35 files, not ~28).
 
 ---
 
@@ -322,3 +345,30 @@ Change `PYTHON_EXECUTABLE ?= python3.11` → `python3` on line 5.
 
 - `.env` files and `phase2/data/` (105MB) are **not** committed to git (`.gitignore` catches them)
 - Real risk is accidental `git add -f` or `.gitignore` edits — hence defense-in-depth patterns
+
+---
+
+## Kaizen Review Summary (2026-04-11)
+
+**Method**: Gemba Walk (plan claims vs. codebase reality) + Muda (waste analysis)
+
+### Corrections Applied
+
+| Item | Original Claim | Reality |
+|------|---------------|---------|
+| Task 1.5 | PoC variant to delete | Production variant with security hardening — evaluate as canonical |
+| Task 1.5 | 4 RAG_app files import windows_ip | Only `qa_loop.py` imports it |
+| Task 1.6 | 177 lines, ~120 dead | 176 lines, ~58 commented |
+| Task 2.4 | CI only runs black | Also installs/version-checks flake8 (linting commented out) |
+| Task 4.3 | ~28 .py files | 35 .py files |
+| Phase 2 | Sequential: 2.1→2.2/2.3→2.4 | 2.1/2.2/2.3 can run parallel; only 2.4 depends on 2.2+2.3 |
+
+### Additions
+
+- **Task 1.7**: Remove tracked binary `phase0/bin/test_WSL_Cuda_devicecount` (980KB, rebuildable via Makefile)
+
+### Waste Eliminated
+
+- **Phantom task**: Task 3.4 removed (duplicate of Task 2.1)
+- **Same-file conflicts**: Tasks 1.2/1.3/1.7 (.gitignore) and Tasks 2.2/3.1 (.pre-commit) now flagged for single edit sessions
+- **Busywork flagged**: Task 4.3 (`__future__` annotations) marked as marginal value on Python 3.12+
