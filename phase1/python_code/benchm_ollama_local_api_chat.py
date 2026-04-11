@@ -3,8 +3,9 @@
 # response time, while also collecting token usage statistics.
 # It uses the OpenAI-compatible /api/chat endpoint
 import argparse
-import time
 import statistics
+import time
+
 import requests
 
 # from sqlalchemy import Null
@@ -107,7 +108,7 @@ def benchmark(args):
         prompt_tokens.append(pt)
         completion_tokens.append(ct)
 
-        print(f" Run {i}/{args.runs}: {t1-t0:.3f}s | prompt={pt}, completion={ct}")
+        print(f" Run {i}/{args.runs}: {t1 - t0:.3f}s | prompt={pt}, completion={ct}")
 
     # Compute aggregate stats
     total_time = sum(latencies)

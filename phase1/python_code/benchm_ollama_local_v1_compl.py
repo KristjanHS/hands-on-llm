@@ -5,9 +5,11 @@ Sends a prompt to the /v1/completions endpoint and measures response time and to
 """
 
 import argparse
-import time
 import statistics
+import time
+
 import requests
+
 from phase1.python_code.windows_ip_in_wsl import get_windows_host_ip
 
 
@@ -159,10 +161,7 @@ def benchmark(args: argparse.Namespace) -> None:
         prompt_tokens.append(pt)
         completion_tokens.append(ct)
 
-        print(
-            f" Run {i}/{args.runs}: {elapsed:.3f} s  |  "
-            f"prompt_tokens={pt}, completion_tokens={ct}"
-        )
+        print(f" Run {i}/{args.runs}: {elapsed:.3f} s  |  prompt_tokens={pt}, completion_tokens={ct}")
 
     total_time = sum(latencies)
     total_pt = sum(prompt_tokens)

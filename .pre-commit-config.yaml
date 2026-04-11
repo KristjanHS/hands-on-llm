@@ -1,6 +1,16 @@
+# Pre-commit hooks: hygiene checks + ruff (replaces black + flake8)
 repos:
-  - repo: https://github.com/psf/black
-    rev: 24.4.2 # Using a specific version is best practice
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
     hooks:
-      - id: black
-        args: [--line-length=120]
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+        args: ['--maxkb=500']  # defense-in-depth against accidental binary commits
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.11.6
+    hooks:
+      - id: ruff
+        args: [--fix]  # auto-fix safe lint issues on commit
+      - id: ruff-format

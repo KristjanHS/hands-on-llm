@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 import os
-from langchain_nomic import NomicEmbeddings
-from langchain_community.vectorstores import FAISS
-from langchain_community.document_loaders import TextLoader
+
 from langchain.text_splitter import CharacterTextSplitter
+from langchain_community.document_loaders import TextLoader
+from langchain_community.vectorstores import FAISS
+from langchain_nomic import NomicEmbeddings
 
 # Define the path for your persistent FAISS index
 FAISS_INDEX_PATH = "faiss_index"

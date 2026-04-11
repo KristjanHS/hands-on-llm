@@ -3,9 +3,11 @@
 # It sends a completion request to the /v1/completions endpoint and measures the response time,
 
 import argparse
-import time
 import statistics
+import time
+
 import requests
+
 from phase1.python_code.windows_ip_in_wsl import get_windows_host_ip
 
 # the disabled tokenizer import is left here for reference, but not used in this script
@@ -13,9 +15,7 @@ from phase1.python_code.windows_ip_in_wsl import get_windows_host_ip
 
 
 def parse_args():
-    p = argparse.ArgumentParser(
-        description="Benchmark Oobabooga Text-Generation Web UI via direct HTTP"
-    )
+    p = argparse.ArgumentParser(description="Benchmark Oobabooga Text-Generation Web UI via direct HTTP")
     p.add_argument(
         "--host",
         "-H",
@@ -117,10 +117,7 @@ def benchmark(args):
         prompt_tokens.append(pt)
         comp_tokens.append(ct)
 
-        print(
-            f" Run {i}/{args.runs}: {elapsed:.3f} s  |  "
-            f"prompt_tokens={pt}, completion_tokens={ct}"
-        )
+        print(f" Run {i}/{args.runs}: {elapsed:.3f} s  |  prompt_tokens={pt}, completion_tokens={ct}")
 
     total_time = sum(latencies)
     total_pt = sum(prompt_tokens)

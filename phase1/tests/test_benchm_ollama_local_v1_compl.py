@@ -1,6 +1,5 @@
 #
-import pytest
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
 
 # This import assumes that pytest is run from the project root directory
 # (e.g., /home/kristjans/projects/hands-on-llm)
@@ -31,9 +30,7 @@ def test_call_ollama_api(mock_post):
     host = "172.22.208.1"
     port = 11434
     model = "mistral"
-    prompt = (
-        """What is the capital of France? Answer like this: "The capital of France is [city]."""
-    )
+    prompt = """What is the capital of France? Answer like this: "The capital of France is [city]."""
     temperature = 0
     num_predict = 128
     num_ctx = 2048

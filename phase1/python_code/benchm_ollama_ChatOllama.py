@@ -5,20 +5,18 @@
 # local Ollama server.
 # The endpoint is the OpenAI-compatible /v1/chat/completions API.
 
-import argparse, json
-import time
+import argparse
 import statistics
+import time
 
 # from typing import Optional
-
 from helper_functions import get_llm_response
+
 from phase1.python_code.windows_ip_in_wsl import get_windows_host_ip
 
 
 def parse_args():
-    p = argparse.ArgumentParser(
-        description="Benchmark local Ollama inference using get_llm_response"
-    )
+    p = argparse.ArgumentParser(description="Benchmark local Ollama inference using get_llm_response")
     p.add_argument(
         "--prompt",
         "-p",
@@ -48,10 +46,7 @@ def parse_args():
         "--base-url",
         "-b",
         default=(f"http://{get_windows_host_ip() or 'localhost'}:11434"),
-        help=(
-            "Base URL for local Ollama server "
-            "(default: detected Windows host IP, or localhost if not found)"
-        ),
+        help=("Base URL for local Ollama server (default: detected Windows host IP, or localhost if not found)"),
         # Uses get_windows_host_ip from windows_ip_in_wsl.py
     )
     p.add_argument(
@@ -138,7 +133,8 @@ def benchmark(
             prompt_token_counts.append(prompt_tokens)
             completion_token_counts.append(completion_tokens)
             print(
-                f"Run {i}/{runs}: {duration:.3f} s, prompt_tokens={prompt_tokens}, completion_tokens={completion_tokens}"
+                f"Run {i}/{runs}: {duration:.3f} s, "
+                f"prompt_tokens={prompt_tokens}, completion_tokens={completion_tokens}"
             )
         else:
             print(f"Run {i}/{runs}: {duration:.3f} s, token count failed.")
@@ -168,9 +164,7 @@ def benchmark(
 
 if __name__ == "__main__":
     args = parse_args()
-    print(
-        f"Benchmarking Ollama on {args.base_url} using model '{args.model}' with max {args.num_predict} tokens"
-    )
+    print(f"Benchmarking Ollama on {args.base_url} using model '{args.model}' with max {args.num_predict} tokens")
     print(f"Prompt: “{args.prompt}” | Temp: {args.temperature} | Runs: {args.runs}\n")
     benchmark(
         prompt=args.prompt,

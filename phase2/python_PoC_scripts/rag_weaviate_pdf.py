@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-import weaviate
 import argparse
 import glob
 import os
 from typing import List
+
+import weaviate
 from weaviate.util import generate_uuid5  # deterministic UUIDs for upsert
 
 # No explicit authentication needed for default local instance of Weaviate
@@ -32,8 +33,9 @@ try:
     from pypdf import PdfReader  # type: ignore
 except ImportError:
     try:
-        from PyPDF2 import PdfReader  # type: ignore
         import warnings
+
+        from PyPDF2 import PdfReader  # type: ignore
 
         # Silence the global deprecation warning by issuing it once here.
         warnings.warn(

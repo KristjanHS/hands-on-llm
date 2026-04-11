@@ -36,7 +36,7 @@ def main():
         # Ingest the data into Weaviate
         with docs.batch.dynamic() as batch:
             for i, d in enumerate(documents):
-                print(f"importing document: {i+1}")
+                print(f"importing document: {i + 1}")
                 properties = {
                     "content": d,
                 }

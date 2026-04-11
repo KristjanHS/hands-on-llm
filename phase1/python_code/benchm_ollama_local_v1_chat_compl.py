@@ -5,9 +5,11 @@ Uses the OpenAI-compatible /v1/chat/completions endpoint and reports token usage
 """
 
 import argparse
-import time
 import statistics
+import time
+
 import requests
+
 from phase1.python_code.windows_ip_in_wsl import get_windows_host_ip
 
 
@@ -109,10 +111,7 @@ def benchmark(args: argparse.Namespace) -> None:
     Args:
         args (argparse.Namespace): Parsed command-line arguments.
     """
-    print(
-        f"→ Connecting to Ollama-compatible endpoint at "
-        f"http://{args.host}:{args.port}/v1/chat/completions"
-    )
+    print(f"→ Connecting to Ollama-compatible endpoint at http://{args.host}:{args.port}/v1/chat/completions")
     print(f"  Model={args.model} | Temp={args.temperature} | Runs={args.runs}\n")
 
     # Warmup (not timed)
@@ -130,7 +129,7 @@ def benchmark(args: argparse.Namespace) -> None:
         prompt_tokens.append(pt)
         completion_tokens.append(ct)
 
-        print(f" Run {i}/{args.runs}: {t1-t0:.3f}s | prompt={pt}, completion={ct}")
+        print(f" Run {i}/{args.runs}: {t1 - t0:.3f}s | prompt={pt}, completion={ct}")
 
     # Compute aggregate stats
     total_time = sum(latencies)

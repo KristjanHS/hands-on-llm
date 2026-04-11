@@ -16,6 +16,7 @@ After processing it prints e.g.
 ✓ 142 chunks (90 inserts, 52 updates)
 Elapsed: 4.3 s
 """
+
 from __future__ import annotations
 
 import argparse
@@ -26,11 +27,10 @@ from datetime import datetime
 from typing import List
 
 import weaviate
+from config import CHUNK_OVERLAP, CHUNK_SIZE, COLLECTION_NAME
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from weaviate.util import generate_uuid5
 from weaviate.exceptions import UnexpectedStatusCodeError
-
-from config import COLLECTION_NAME, CHUNK_SIZE, CHUNK_OVERLAP
+from weaviate.util import generate_uuid5
 
 # Lightweight language detection
 try:

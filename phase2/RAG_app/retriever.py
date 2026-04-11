@@ -1,9 +1,8 @@
 from __future__ import annotations
 
-from typing import List, Optional, Dict, Any
+from typing import Any, Dict, List, Optional
 
 import weaviate
-
 from config import COLLECTION_NAME, DEFAULT_HYBRID_ALPHA
 
 # ---------------------------------------------------------------------------

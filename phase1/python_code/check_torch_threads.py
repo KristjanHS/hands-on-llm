@@ -2,8 +2,9 @@
 # This script checks the number of threads used by PyTorch.
 # It is useful to verify that the number of threads is set correctly for performance tuning.
 # It should match the number of CPU cores available on the system.
-import os
 import multiprocessing
+import os
+
 import torch
 
 # print(torch.__config__.show()) # Uncomment to see detailed PyTorch configuration

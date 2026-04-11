@@ -36,9 +36,9 @@
 		"python.defaultInterpreterPath": "/home/kristjans/projects/hands-on-llm/.venv/bin/python",
 
 		// --- Editor & Formatting Consistency ---
-		// Ensure all Python files are formatted with the Black Formatter.
+		// Ensure all Python files are formatted with Ruff.
 		"[python]": {
-			"editor.defaultFormatter": "ms-python.black-formatter",
+			"editor.defaultFormatter": "charliermarsh.ruff",
 			"editor.formatOnSave": true
 		},
 
@@ -64,7 +64,7 @@
 			"ms-python.python",         // Core Python support
 			"ms-python.vscode-pylance", // Language server
 			"ms-python.jupyter",        // For your notebooks
-			"ms-python.black-formatter",// The formatter you chose
+			"charliermarsh.ruff",       // Linter & formatter
 			"ms-vscode-remote.remote-wsl", // Essential for your WSL setup
 			"eamodio.gitlens",          // Powerful Git integration
 			"ms-toolsai.jupyter",       // Jupyter support

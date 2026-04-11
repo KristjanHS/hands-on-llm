@@ -15,10 +15,22 @@ dependencies = [
     "rich"
 ]
 
-[tool.black]
+# Ruff replaces flake8 + black + isort (single tool, 10-100x faster)
+[tool.ruff]
 line-length = 120
-skip-string-normalization = false
-target-version = ["py312"]
+target-version = "py312"
+exclude = ["AI-Python-for-Beginners_local_LLM"]  # third-party course material — never modify
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]  # pycodestyle errors/warnings, pyflakes, isort
+ignore = ["E203", "E401", "E302", "E305"]  # carried over from legacy .flake8 config
+
+[tool.ruff.lint.per-file-ignores]
+"*.ipynb" = ["E501", "E731", "E741", "F811"]  # notebooks are exploratory — relaxed rules
+"phase2/python_PoC_scripts/rag_weaviate_pdf.py" = ["E402"]  # sys.path manipulation requires early imports
+
+[tool.ruff.format]
+quote-style = "double"
 
 [tool.pytest.ini_options]
 addopts = "-ra -q"

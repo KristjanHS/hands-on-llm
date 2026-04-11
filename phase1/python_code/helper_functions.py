@@ -3,8 +3,8 @@
 Helper functions for LLM and benchmarking scripts.
 """
 
-from langchain_ollama import ChatOllama
 from langchain_core.messages import HumanMessage
+from langchain_ollama import ChatOllama
 
 
 def get_llm_response(

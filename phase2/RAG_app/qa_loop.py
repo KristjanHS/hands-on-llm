@@ -1,19 +1,19 @@
 #!/usr/bin/env python3
 """Interactive console for Retrieval-Augmented Generation."""
+
 from __future__ import annotations
 
+import json
 import sys
+from dataclasses import dataclass
+from typing import Any, Dict, List, Optional, Tuple
 
-from phase1.python_code.windows_ip_in_wsl import get_windows_host_ip
 import httpx  # For catching connection errors
 import requests
-import json
-
 from config import OLLAMA_MODEL, OLLAMA_URL
 from retriever import get_top_k
-from typing import List, Tuple, Optional, Dict, Any
-from dataclasses import dataclass
 
+from phase1.python_code.windows_ip_in_wsl import get_windows_host_ip
 
 # ---------- cross-encoder helpers --------------------------------------------------
 
